@@ -11,7 +11,7 @@ class Angular extends JS
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Angular';
     }
@@ -19,7 +19,7 @@ class Angular extends JS
     /**
      * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         $folder = 'angular';
         return [
@@ -196,7 +196,7 @@ class Angular extends JS
      * @param array $param
      * @return string
      */
-    public function getParamExample(array $param)
+    public function getParamExample(array $param): string
     {
         $type       = $param['type'] ?? '';
         $example    = $param['example'] ?? '';

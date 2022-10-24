@@ -11,7 +11,7 @@ class AngularCommon extends JS
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'AngularCommon';
     }
@@ -19,7 +19,7 @@ class AngularCommon extends JS
     /**
      * @return array
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         $folder = 'angular-common';
         return [
@@ -151,7 +151,7 @@ class AngularCommon extends JS
      * @param array $param
      * @return string
      */
-    public function getParamExample(array $param)
+    public function getParamExample(array $param): string
     {
         $type       = $param['type'] ?? '';
         $example    = $param['example'] ?? '';

@@ -606,6 +606,12 @@ class SDK
                         $this->render($template, $destination, $block, $params, $minify);
                     }
                     break;
+                case 'models':
+                    foreach ($this->spec->getDefinitions() as $key => $definition) {
+                        $params['definition'] = $definition;
+
+                        $this->render($template, $destination, $block, $params, $minify);
+                    }
                 case 'definition':
                     foreach ($this->spec->getDefinitions() as $key => $definition) {
                         $params['definition'] = $definition;
