@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+    install:
+        command: 'composer install --ignore-platform-reqs'
+        volumes:
+            - './:/app:rw'
+        image: composer
+    generate:
+        command: 'sh'
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+        volumes:
+            - './:/usr/src/myapp:rw'
+        image: php
+        working_dir: '/usr/src/myapp'

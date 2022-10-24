@@ -1,0 +1,20 @@
+{% for definition in spec.definitions %}
+export * from './interfaces/{{definition.name}}';
+{% endfor %}
+
+export type Payload = {
+  [key: string]: any;
+};
+
+export type Headers = {
+  [key: string]: string;
+};
+export type HttpMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+export type UploadProgress = {
+  $id: string;
+  progress: number;
+  sizeUploaded: number;
+  chunksTotal: number;
+  chunksUploaded: number;
+};

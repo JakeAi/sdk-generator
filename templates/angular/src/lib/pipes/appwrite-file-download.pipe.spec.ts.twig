@@ -1,0 +1,53 @@
+import { waitForAsync } from '@angular/core/testing';
+import { AppwriteAngularModule, AppwriteFileDownloadPipe, AppwriteStorageService } from '@appwrite/angular';
+import { MockBuilder, MockInstance, MockRender } from 'ng-mocks';
+
+describe(AppwriteFileDownloadPipe.name, () => {
+  const pipe = 'appwriteFileDownload';
+  const mockDocumentId = 'mockDocumentId';
+  const mockCollectionId = 'mockCollectionId';
+  const mockValue = 'https://test.com/true/';
+
+  const mockFn = jest.fn((fileId: string) => mockValue + fileId);
+
+  beforeEach(() => MockBuilder(AppwriteFileDownloadPipe, AppwriteAngularModule.forRoot({})));
+
+  beforeAll(() =>
+    MockInstance(AppwriteStorageService, {
+      init: (instance) => {
+        instance.getFileDownload = mockFn;
+      },
+    })
+  );
+
+  it(
+    'should get more than one document',
+    waitForAsync(async () => {
+      try {
+        const template = `{{ value | ${pipe} }}`;
+        const fixture = MockRender(template, { value: mockDocumentId });
+        fixture.detectChanges();
+        const response = fixture.nativeElement.innerHTML;
+        expect(response).toEqual(mockValue + mockDocumentId);
+      } catch (e) {
+        console.error(e);
+      }
+    })
+  );
+
+  it(
+    'should pass correct params',
+    waitForAsync(async () => {
+      try {
+        mockFn.mockClear();
+        const template = `{{ value | ${pipe} }}`;
+        const fixture = MockRender(template, { value: mockDocumentId });
+        fixture.detectChanges();
+        expect(mockFn).toHaveBeenCalledWith(mockDocumentId);
+        expect(mockFn).toHaveBeenCalledTimes(1);
+      } catch (e) {
+        console.error(e);
+      }
+    })
+  );
+});

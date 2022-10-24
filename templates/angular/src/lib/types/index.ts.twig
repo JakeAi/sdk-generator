@@ -1,0 +1,12 @@
+{% for definition in spec.definitions %}
+export * from './{{definition.name}}';
+{% endfor %}
+
+export type Payload = {
+  [key: string]: any;
+};
+
+export type Headers = {
+  [key: string]: string;
+};
+export type HttpMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';

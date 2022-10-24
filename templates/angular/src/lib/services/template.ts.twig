@@ -1,0 +1,167 @@
+import { Injectable } from '@angular/core';
+import { Account, ContinentList, CountryList, CurrencyList, Document, DocumentBase, DocumentList, Execution, ExecutionList, File as AppwriteFile, FileList, ID, JWT, LanguageList, Locale, LogList, Membership, MembershipList, Permission, PhoneList, Realtime, RealtimeRequest, RealtimeResponse, RealtimeResponseConnected, RealtimeResponseError, RealtimeResponseEvent, Session, SessionList, Team, TeamList, Token, UploadProgress, User } from '@appwrite/common';
+import URLParse from 'url-parse';
+import { AppwriteException } from '../exceptions';
+import { flatten } from '../util';
+import { Payload } from '../types';
+import { AppwriteService } from './appwrite.service';
+
+@Injectable()
+export class Appwrite{{ service.name | caseUcfirst }}Service {#{% if     service.name == 'account' %} 
+<T = User>
+{% elseif service.name == 'avatars' %} 
+{% elseif service.name == 'databases' %}
+<T = Document<any>> 
+{% elseif service.name == 'functions' %} 
+<T = Execution>
+{% elseif service.name == 'locale' %} 
+{% elseif service.name == 'storage' %} 
+<T = AppwriteFile>
+{% elseif service.name == 'teams' %} 
+<T = Team>
+{% endif %}#}{
+  constructor(private appwriteService: AppwriteService) {}
+{% for method in service.methods %}
+        /**
+         * {{ method.title }}
+         *
+{% if method.description %}
+{{ method.description|comment3 }}
+{% endif %}
+         *
+{% for parameter in method.parameters.all %}
+         * @param {{ '{' }}{{ parameter | getPropertyType(method) | raw }}{{ '}' }} {{ parameter.name | caseCamel | escapeKeyword }}
+{% endfor %}
+         * @throws {{ '{' }}{{ spec.title | caseUcfirst}}Exception}
+         * @returns {% if method.type == 'webAuth' %}{void|string}{% elseif method.type == 'location' %}{URLParse}{% else %}{Promise<{{method | getReturn(spec) | raw}}>}{% endif %}
+
+         */
+         
+        {% if method.type != 'location' and method.type != 'webAuth'%}async {% endif %}{{ method.name | caseCamel }}{{ method.responseModel | getGenerics(spec) | raw }}({% for parameter in method.parameters.all %}{{ parameter.name | caseCamel | escapeKeyword }}{% if not parameter.required %}?{% endif %}: {{ parameter | getPropertyType(method) | raw }}{% if not loop.last %}, {% endif %}{% endfor %}{% if 'multipart/form-data' in method.consumes %}, onProgress = (progress: UploadProgress) => {}{% endif %}): {% if method.type != 'location' and method.type != 'webAuth'%}Promise<{{ method | getReturn(spec) | raw }}>{% else %}{{ method | getReturn(spec) | raw }}{% endif %} {
+            const path = '{{ method.path }}'{% for parameter in method.parameters.path %}.replace('{{ '{' }}{{ parameter.name | caseCamel | escapeKeyword }}{{ '}' }}', {{ parameter.name | caseCamel | escapeKeyword }}){% endfor %};
+            const payload: Payload = { {% for parameter in method.parameters.body %}{{ parameter.name | caseCamel | escapeKeyword }}, {% endfor %} {% for parameter in method.parameters.query %}{{ parameter.name | caseCamel | escapeKeyword }}, {% endfor %} };
+{% for parameter in method.parameters.all %}
+{% if parameter.required %}
+
+            if (typeof {{ parameter.name | caseCamel | escapeKeyword }} === 'undefined') {
+                throw new {{spec.title | caseUcfirst}}Exception('Missing required parameter: "{{ parameter.name | caseCamel | escapeKeyword }}"');
+            }
+{% endif %}
+{% endfor %}
+
+{% if method.type == 'location' or method.type == 'webAuth' %}
+            const uri = new URLParse(this.appwriteService.config.endpoint + path);
+{% if method.security|length > 0 %}
+{% for node in method.security %}
+{% for key,header in node|keys %}
+            payload['{{header|caseLower}}'] = this.appwriteService.config.{{header|caseLower}};
+{% endfor %}
+{% endfor %}
+{% endif %}
+            uri.set('query', flatten(payload));
+{% endif %}
+{% if method.type == 'webAuth' %}
+
+            if (typeof window !== 'undefined' && window?.location) {
+                window.location.href = uri.toString();
+            } else {
+                return uri;
+            }
+{% elseif method.type == 'location' %}
+
+            return uri;
+{% else %}
+{% if 'multipart/form-data' in method.consumes %}
+{% for parameter in method.parameters.all %}
+{% if parameter.type == 'file' %}
+
+            if(!({{ parameter.name | caseCamel | escapeKeyword }} instanceof File)) {
+                throw new {{spec.title | caseUcfirst}}Exception('Parameter "{{ parameter.name | caseCamel | escapeKeyword }}" has to be a File.');
+            }
+
+            const size = {{ parameter.name | caseCamel | escapeKeyword }}.size;
+
+            if (size <= AppwriteService.CHUNK_SIZE) {
+                return await this.appwriteService.call('{{ method.method | caseUpper }}', path, { {% for parameter in method.parameters.header %}
+'{{ parameter.name | caseCamel | escapeKeyword }}': this.appwriteService.${{ parameter.name | caseCamel | escapeKeyword }},
+{% endfor %}
+{% for key, header in method.headers %}
+'{{ key }}': '{{ header }}',
+{% endfor %} }, payload);
+            }
+            let id = undefined;
+            let response = undefined;
+
+            const headers: { [header: string]: string } = {
+{% for parameter in method.parameters.header %}
+                '{{ parameter.name | caseCamel | escapeKeyword }}': this.appwriteService.${{ parameter.name | caseCamel | escapeKeyword }},
+{% endfor %}
+{% for key, header in method.headers %}
+                '{{ key }}': '{{ header }}',
+{% endfor %}
+            }
+
+            let counter = 0;
+            const totalCounters = Math.ceil(size / AppwriteService.CHUNK_SIZE);
+{% for parameter in method.parameters.all %}
+{% if parameter.isUploadID %}
+            if({{ parameter.name | caseCamel | escapeKeyword }} != 'unique()') {
+                try {
+                    response = await this.appwriteService.call('GET', new URLParse(this.appwriteService.config.endpoint + path + '/' + {{ parameter.name }}), headers);
+                    counter = response.chunksUploaded;
+                } catch(e) {
+                }
+            }
+{% endif %}
+{% endfor %}
+
+            for (counter; counter < totalCounters; counter++) {
+                const start = (counter * AppwriteService.CHUNK_SIZE);
+                const end = Math.min((((counter * AppwriteService.CHUNK_SIZE) + AppwriteService.CHUNK_SIZE) - 1), size);
+
+                headers['content-range'] = 'bytes ' + start + '-' + end + '/' + size
+
+                if (id) {
+                    headers['x-{{spec.title | caseLower }}-id'] = id;
+                }
+
+                const stream = {{ parameter.name | caseCamel | escapeKeyword }}.slice(start, end + 1);
+                payload['{{ parameter.name }}'] = new File([stream], {{ parameter.name | caseCamel | escapeKeyword }}.name);
+
+                response = await this.appwriteService.call('{{ method.method | caseUpper }}', path, headers, payload);
+
+                if (!id) {
+                    id = response['$id'];
+                }
+
+                if (onProgress) {
+                    onProgress({
+                        $id: response.$id,
+                        progress: Math.min((counter + 1) * AppwriteService.CHUNK_SIZE - 1, size) / size * 100,
+                        sizeUploaded: end,
+                        chunksTotal: response.chunksTotal,
+                        chunksUploaded: response.chunksUploaded
+                    });
+                }
+            }
+
+            return response;
+{% endif %}
+{% endfor %}
+{% else %}
+            return await this.appwriteService.call<{{method | getReturn(spec) | raw}}>('{{method.method | caseUpper}}', path, {% apply spaceless %}{
+{%- for parameter in method.parameters.header %}
+                '{{ parameter.name | caseCamel | escapeKeyword }}': this.appwriteService.${{ parameter.name | caseCamel | escapeKeyword }},
+{% endfor -%}
+{#
+{%- for key, header in method.headers %}
+                '{{ key }}': '{{ header }}',
+{% endfor -%}
+#}
+{% endapply %}
+}, payload);
+{% endif %}
+{% endif %}
+        }
+{% endfor %}
+}

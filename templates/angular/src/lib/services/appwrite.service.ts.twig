@@ -1,0 +1,166 @@
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Inject, Injectable, Injector } from '@angular/core';
+import URLParse from 'url-parse';
+import { AppwriteOptions } from '../appwrite-angular.module';
+import { AppwriteException } from '../exceptions';
+import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
+import { Headers, HttpMethods, Payload } from '../types';
+import { flatten } from '../util';
+
+@Injectable()
+export class AppwriteService {
+  static CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
+
+    config = {
+        endpoint: '{{ spec.endpoint }}',
+        endpointRealtime: '',
+{% for header in spec.global.headers %}
+        {{ header.key | caseLower }}: '',
+{% endfor %}
+    };
+    headers: Headers = {
+        'x-sdk-name': '{{ sdk.name }}',
+        'x-sdk-platform': '{{ sdk.platform }}',
+        'x-sdk-language': '{{ language.name | caseLower }}',
+        'x-sdk-version': '{{ sdk.version }}',
+{% for key,header in spec.global.defaultHeaders %}
+        '{{key}}': '{{header}}',
+{% endfor %}
+    }
+
+  constructor(
+    @Inject(APPWRITE_OPTIONS_TOKEN) public appwriteOptions: AppwriteOptions['config'],
+    @Inject(APPWRITE_LOCATION_PROVIDER_TOKEN) public locationProvider,
+    private injector: Injector,
+    private http: HttpClient
+  ) {
+    if (!appwriteOptions || !appwriteOptions.endpointUrl || !appwriteOptions.endpointUrl) {
+      throw new Error('You are missing required config properties');
+    }
+    this.config.database = appwriteOptions.database;
+    this.config.endpoint = appwriteOptions.endpointUrl;
+    this.config.project = appwriteOptions.projectId;
+    this.setEndpoint(appwriteOptions.endpointUrl).setProject(appwriteOptions.projectId);
+  }
+
+  /**
+   * Set Endpoint
+   *
+   * Your project endpoint
+   *
+   * @param {string} endpoint
+   *
+   * @returns {this}
+   */
+  setEndpoint(endpoint: string): this {
+    this.config.endpoint = endpoint;
+    this.config.endpointRealtime = this.config.endpointRealtime || this.config.endpoint.replace('https://', 'wss://').replace('http://', 'ws://');
+
+    return this;
+  }
+
+  /**
+   * Set Realtime Endpoint
+   *
+   * @param {string} endpointRealtime
+   *
+   * @returns {this}
+   */
+  setEndpointRealtime(endpointRealtime: string): this {
+    this.config.endpointRealtime = endpointRealtime;
+
+    return this;
+  }
+
+  {% for header in spec.global.headers %}
+    /**
+     * Set {{header.key | caseUcfirst}}
+     *
+{% if header.description %}
+{{header.description|comment2}}
+     *
+{% endif %}
+     * @param value string
+     *
+     * @return {this}
+     */
+    set{{header.key | caseUcfirst}}({{ header.key | caseLower }}: string): this {
+        this.headers['{{header.name}}'] = {{ header.key | caseLower }};
+        this.config.{{ header.key | caseLower }} = {{ header.key | caseLower }};
+        return this;
+    }
+
+{% endfor %}
+
+  public async call<T>(method: HttpMethods, path: string, headers: Headers = {}, params: Payload = {}): Promise<T> {
+    const url = new URLParse(this.config.endpoint + path);
+    headers = { 'content-type': 'application/json', ...this.headers, ...headers };
+    let body: any;
+    headers['X-Fallback-Cookies'] = this.appwriteOptions?.tokenGetter('cookieFallback');
+
+    // Clean up undefined params
+    Object.keys(params).forEach((key) => (params[key] === undefined ? delete params[key] : {}));
+
+    if (method === 'GET') {
+      url.set('query', flatten(params));
+    } else {
+      switch (headers['content-type']) {
+        case 'application/json': {
+          body = JSON.stringify(params);
+          break;
+        }
+        case 'multipart/form-data': {
+          const formData = new FormData();
+
+          for (const key in params) {
+            if (Array.isArray(params[key])) {
+              formData.append(key + '[]', params[key].join(','));
+            } else {
+              formData.append(key, params[key]);
+            }
+          }
+
+          body = formData;
+          delete headers['content-type'];
+          break;
+        }
+      }
+    }
+
+    try {
+      const response: HttpResponse<T> = await this.http
+        .request<T>(method, url.toString(), {
+          body,
+          headers: headers,
+          observe: 'response',
+          withCredentials: true,
+        })
+        .toPromise();
+      let data: any | { message: string } = null;
+      if (response.headers.get('content-type')?.includes('application/json')) {
+        data = response.body;
+      } else {
+        data = {
+          message: response.body,
+        };
+      }
+      if (response.status >= 400) {
+        throw new AppwriteException(data?.message, response.status, data?.type, data);
+      }
+
+      const cookieFallback = response.headers.get('X-Fallback-Cookies');
+      if (cookieFallback) {
+        console.warn('Appwrite is using localStorage for session management. Increase your security by adding a custom domain as your API endpoint.');
+        this.appwriteOptions?.tokenSetter('cookieFallback', cookieFallback);
+      }
+
+      return data;
+    } catch (e) {
+      console.error(e);
+      if (e instanceof HttpErrorResponse) {
+        throw new AppwriteException(e.error.message, e.error.code);
+      }
+      throw e;
+    }
+  }
+}
