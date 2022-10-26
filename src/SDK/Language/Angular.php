@@ -411,10 +411,17 @@ class Angular extends JS
             ) {
                 $ret .= '';
             }
-            if ($this->toUpperCase($method['responseModel']) == "Document") {
-                $ret .= "Document<R>";
-            } else {
-                $ret .= $this->toUpperCase($method['responseModel']);
+            $upperCaseMethod = $this->toUpperCase($method['responseModel']);
+            switch ($upperCaseMethod) {
+                case "Document":
+                    $ret .= "Document<R>";
+                    break;
+                case "File":
+                    $ret .= "AWFile";
+                    break;
+                default:
+                    $ret .= $upperCaseMethod;
+                    break;
             }
             $models = [];
 
