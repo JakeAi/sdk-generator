@@ -1,0 +1,94 @@
+import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { AppwriteStorageService } from '../services';
+
+@Component({
+  selector: 'appwrite-image',
+  template: `
+    <ng-container *ngIf="src">
+      <img
+        [style.max-width]="'100%'"
+        [style.width]="'100%'"
+        [srcset]="srcSet"
+        [src]="originalSrc"
+        [class]="classes"
+        [alt]="src?.alt || ''"
+        [title]="src?.title || ''"
+      />
+    </ng-container>
+  `,
+  styles: [
+    `
+      img {
+        object-fit: contain;
+      }
+
+      :host {
+        max-width: 100%;
+      }
+    `,
+  ],
+})
+export class AppwriteImageComponent implements OnChanges {
+  public srcSet: string = '';
+  public originalSrc: string;
+  @Input() public src: any;
+  @Input() public width?: number;
+  @Input() public height?: number;
+  @Input() public quality?: number = 75;
+  @Input() public gravity?: 'center' | 'top-left' | 'top' | 'top-right' | 'left' | 'right' | 'bottom-left' | 'bottom' | 'bottom-right';
+  @Input() public borderWidth?: number;
+  @Input() public borderColor?: string;
+  @Input() public borderRadius?: number;
+  @Input() public opacity?: number;
+  @Input() public rotation?: number;
+  @Input() public background?: string;
+  @Input() public output?: 'jpeg' | 'jpg' | 'png' | 'gif' | 'webp';
+
+  @Input() public classes: string = '';
+
+  constructor(private appwriteStorage: AppwriteStorageService) {}
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const change: SimpleChange = changes['src'];
+    if (!change.currentValue) {
+      return;
+    }
+    if (typeof change.currentValue === 'string') {
+      this.url(change.currentValue);
+    } else {
+      this.url(change.currentValue.$id);
+    }
+  }
+
+  public url(id: string) {
+    this.originalSrc = this.appwriteStorage.getFilePreview(
+      'default',
+      id,
+      this.width,
+      this.height,
+      this.gravity,
+      this.quality,
+      this.borderWidth,
+      this.borderColor,
+      this.borderRadius,
+      this.opacity,
+      this.rotation,
+      this.background,
+      this.output
+    ).href;
+
+    this.srcSet = [1, 2, 3]
+      .map(
+        (resolutionFactor) =>
+          this.appwriteStorage.getFilePreview(
+            'default',
+            id,
+            this.width * resolutionFactor || undefined,
+            this.height * resolutionFactor || undefined,
+            undefined,
+            this.quality
+          ).href + ` ${resolutionFactor}x`
+      )
+      .join(', ');
+  }
+}

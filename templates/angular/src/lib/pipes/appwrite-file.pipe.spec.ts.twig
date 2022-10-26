@@ -21,27 +21,21 @@ describe('AppwriteFilePipe', () => {
     })
   );
 
-  it(
-    'should get one document',
-    waitForAsync(async () => {
-      const template = `{{ value | ${pipe} | async | json }}`;
-      const fixture = MockRender(template, { value: mockDocumentId });
+  it('should get one document', waitForAsync(async () => {
+    const template = `{{ '{{' }} value | ${pipe} | async | json }}`;
+    const fixture = MockRender(template, { value: mockDocumentId });
 
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-      const response = JSON.parse(fixture.nativeElement.innerHTML);
-      expect(response).toEqual(mockValue);
-    })
-  );
+    const response = JSON.parse(fixture.nativeElement.innerHTML);
+    expect(response).toEqual(mockValue);
+  }));
 
-  it(
-    'should pass correct params',
-    waitForAsync(async () => {
-      const template = `{{ value | ${pipe} | async | json }}`;
-      const fixture = MockRender(template, { value: mockDocumentId });
-      expect(mockFn).toHaveBeenCalledWith(mockDocumentId);
-    })
-  );
+  it('should pass correct params', waitForAsync(async () => {
+    const template = `{{ '{{' }} value | ${pipe} | async | json }}`;
+    const fixture = MockRender(template, { value: mockDocumentId });
+    expect(mockFn).toHaveBeenCalledWith(mockDocumentId);
+  }));
 });

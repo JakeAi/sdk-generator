@@ -23,6 +23,23 @@ class Angular extends JS
     {
         $folder = 'angular';
         return [
+
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/components/appwrite-image.component.ts',
+                'template'      => $folder . '/src/lib/components/appwrite-image.component.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/components/index.ts',
+                'template'      => $folder . '/src/lib/components/index.ts.twig',
+                'minify'        => false,
+            ],
+
+
+
+
             [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/exceptions/appwrite.exception.ts',
@@ -35,12 +52,106 @@ class Angular extends JS
                 'template'      => $folder . '/src/lib/exceptions/index.ts.twig',
                 'minify'        => false,
             ],
+
+
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-content.pipe.spec.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-content.pipe.spec.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-content.pipe.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-content.pipe.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-file-download.pipe.spec.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-file-download.pipe.spec.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-file-download.pipe.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-file-download.pipe.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-file.pipe.spec.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-file.pipe.spec.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-file.pipe.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-file.pipe.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-files.pipe.spec.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-files.pipe.spec.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-files.pipe.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-files.pipe.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-image.pipe.spec.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-image.pipe.spec.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/appwrite-image.pipe.ts',
+                'template'      => $folder . '/src/lib/pipes/appwrite-image.pipe.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/pipes/index.ts',
+                'template'      => $folder . '/src/lib/pipes/index.ts.twig',
+                'minify'        => false,
+            ],
+
+
+
+
             [
                 'scope'         => 'service',
                 'destination'   => 'src/lib/services/appwrite-{{service.name | caseDash}}.service.ts',
                 'template'      => $folder . '/src/lib/services/template.ts.twig',
                 'minify'        => false,
             ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/services/appwrite-realtime.service.ts',
+                'template'      => $folder . '/src/lib/services/appwrite-realtime.service.ts.twig',
+                'minify'        => false,
+            ],            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/services/appwrite.service.ts',
+                'template'      => $folder . '/src/lib/services/appwrite.service.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/services/index.ts',
+                'template'      => $folder . '/src/lib/services/index.ts.twig',
+                'minify'        => false,
+            ],
+
+
+
+
+
             [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/tokens/appwrite-local-storage-provider.token.ts',
@@ -67,12 +178,6 @@ class Angular extends JS
             ],
             [
                 'scope'         => 'default',
-                'destination'   => 'src/lib/types/index.ts',
-                'template'      => $folder . '/src/lib/types/index.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
                 'destination'   => 'src/lib/util/flatten.ts',
                 'template'      => $folder . '/src/lib/util/flatten.ts.twig',
                 'minify'        => false,
@@ -85,49 +190,23 @@ class Angular extends JS
             ],
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/appwrite-angular.module.ts',
+                'template'      => $folder . '/src/lib/appwrite-angular.module.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
                 'destination'   => 'src/index.ts',
                 'template'      => $folder . '/src/index.ts.twig',
                 'minify'        => false,
             ],
-
-
             [
                 'scope'         => 'default',
-                'destination'   => 'src/lib/services/appwrite.service.ts',
-                'template'      => $folder . '/src/lib/services/appwrite.service.ts.twig',
+                'destination'   => 'src/test-setup.ts',
+                'template'      => $folder . '/src/test-setup.ts.twig',
                 'minify'        => false,
             ],
 
-            [
-                'scope'         => 'models',
-                'destination'   => 'src/lib/types/{{definition.name}}.ts',
-                'template'      => $folder . '/src/lib/types/models.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/permission.ts',
-                'template'      => $folder . '/src/lib/permission.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/role.ts',
-                'template'      => $folder . '/src/lib/role.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/id.ts',
-                'template'      => $folder . '/src/lib/id.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/query.ts',
-                'template'      => $folder . '/src/lib/query.ts.twig',
-                'minify'        => false,
-            ],
             [
                 'scope'         => 'default',
                 'destination'   => '.eslintrc.json',
@@ -308,6 +387,9 @@ class Angular extends JS
             if ($type === 'Document') {
                 return 'R';
             }
+            if ($type === 'Preferences') {
+                return 'P extends Preferences';
+            }
             return "{$type} extends {$type}";
         }, $generics);
         return '<' . implode(', ', $generics) . '>';
@@ -320,7 +402,6 @@ class Angular extends JS
         } elseif ($method['type'] === 'location') {
             return 'URLParse';
         }
-
         if (array_key_exists('responseModel', $method) && !empty($method['responseModel']) && $method['responseModel'] !== 'any') {
             $ret = '';
             if (
@@ -330,9 +411,11 @@ class Angular extends JS
             ) {
                 $ret .= '';
             }
-
-            $ret .= $this->toUpperCase($method['responseModel']);
-
+            if ($this->toUpperCase($method['responseModel']) == "Document") {
+                $ret .= "Document<R>";
+            } else {
+                $ret .= $this->toUpperCase($method['responseModel']);
+            }
             $models = [];
 
             if ($method['responseModel']) {
@@ -342,10 +425,17 @@ class Angular extends JS
             $models = array_unique($models);
             $models = array_filter($models, fn ($model) => $model != $this->toUpperCase($method['responseModel']));
             $models = array_map(function ($type) {
-                if ($type === 'Document') {
-                    return 'R';
+                switch ($type) {
+                    case 'Document':
+                        return 'R';
+                    case 'Preferences':
+                        return 'P';
+                    default:
+                        return $type;
                 }
             }, $models);
+
+            $models = array_filter($models);
 
             if (!empty($models)) {
                 $ret .= '<' . implode(', ', $models) . '>';
@@ -355,7 +445,7 @@ class Angular extends JS
 
             return $ret;
         } else {
-            return 'Record<string, unknown>';
+            return 'void';
         }
 
         return "";
@@ -418,14 +508,14 @@ class Angular extends JS
             new TwigFilter('comment2', function ($value) {
                 $value = explode("\n", $value);
                 foreach ($value as $key => $line) {
-                    $value[$key] = "     * " . wordwrap($value[$key], 75, "\n     * ");
+                    $value[$key] = "* " . wordwrap($value[$key], 75, "\n   * ");
                 }
                 return implode("\n", $value);
             }, ['is_safe' => ['html']]),
             new TwigFilter('comment3', function ($value) {
                 $value = explode("\n", $value);
                 foreach ($value as $key => $line) {
-                    $value[$key] = "         * " . wordwrap($value[$key], 75, "\n         * ");
+                    $value[$key] = "* " . wordwrap($value[$key], 75, "\n   * ");
                 }
                 return implode("\n", $value);
             }, ['is_safe' => ['html']]),

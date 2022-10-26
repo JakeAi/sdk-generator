@@ -1,6 +1,8 @@
 {% for definition in spec.definitions %}
 export * from './interfaces/{{definition.name}}';
 {% endfor %}
+export * from './class';
+export * from './realtime';
 
 export type Payload = {
   [key: string]: any;

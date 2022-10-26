@@ -1,32 +1,33 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
+import { Headers, HttpMethods, Payload } from '@appwrite/common';
 import URLParse from 'url-parse';
 import { AppwriteOptions } from '../appwrite-angular.module';
 import { AppwriteException } from '../exceptions';
 import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
-import { Headers, HttpMethods, Payload } from '../types';
 import { flatten } from '../util';
 
 @Injectable()
 export class AppwriteService {
   static CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 
-    config = {
-        endpoint: '{{ spec.endpoint }}',
-        endpointRealtime: '',
+  config = {
+    endpoint: '{{ spec.endpoint }}',
+    endpointRealtime: '',
+    database: '',
 {% for header in spec.global.headers %}
-        {{ header.key | caseLower }}: '',
+    {{ header.key | caseLower }}: '',
 {% endfor %}
-    };
-    headers: Headers = {
-        'x-sdk-name': '{{ sdk.name }}',
-        'x-sdk-platform': '{{ sdk.platform }}',
-        'x-sdk-language': '{{ language.name | caseLower }}',
-        'x-sdk-version': '{{ sdk.version }}',
+  }
+  headers: Headers = {
+    'x-sdk-name': '{{ sdk.name }}',
+    'x-sdk-platform': '{{ sdk.platform }}',
+    'x-sdk-language': '{{ language.name | caseLower }}',
+    'x-sdk-version': '{{ sdk.version }}',
 {% for key,header in spec.global.defaultHeaders %}
-        '{{key}}': '{{header}}',
+    '{{key}}': '{{header}}',
 {% endfor %}
-    }
+  }
 
   constructor(
     @Inject(APPWRITE_OPTIONS_TOKEN) public appwriteOptions: AppwriteOptions['config'],
@@ -72,23 +73,22 @@ export class AppwriteService {
     return this;
   }
 
-  {% for header in spec.global.headers %}
-    /**
-     * Set {{header.key | caseUcfirst}}
-     *
-{% if header.description %}
-{{header.description|comment2}}
-     *
+ {% for header in spec.global.headers %}
+  /**
+   * Set {{header.key | caseUcfirst}}
+   *
+{% if header.description %}{{header.description|comment2}}
+   *
 {% endif %}
-     * @param value string
-     *
-     * @return {this}
-     */
-    set{{header.key | caseUcfirst}}({{ header.key | caseLower }}: string): this {
-        this.headers['{{header.name}}'] = {{ header.key | caseLower }};
-        this.config.{{ header.key | caseLower }} = {{ header.key | caseLower }};
-        return this;
-    }
+   * @param {{ header.key | caseLower }} string
+   *
+   * @return {this}
+   */
+  set{{header.key | caseUcfirst}}({{ header.key | caseLower }}: string): this {
+    this.headers['{{header.name}}'] = {{ header.key | caseLower }};
+    this.config.{{ header.key | caseLower }} = {{ header.key | caseLower }};
+    return this;
+  }
 
 {% endfor %}
 
@@ -133,7 +133,7 @@ export class AppwriteService {
           body,
           headers: headers,
           observe: 'response',
-          withCredentials: true,
+          withCredentials: true
         })
         .toPromise();
       let data: any | { message: string } = null;
@@ -141,7 +141,7 @@ export class AppwriteService {
         data = response.body;
       } else {
         data = {
-          message: response.body,
+          message: response.body
         };
       }
       if (response.status >= 400) {

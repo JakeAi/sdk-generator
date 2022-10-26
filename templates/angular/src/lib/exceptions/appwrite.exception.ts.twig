@@ -1,13 +1,14 @@
 export class {{spec.title | caseUcfirst}}Exception extends Error {
-    code: number;
-    response: string;
-    type: string;
-    constructor(message: string, code: number = 0, type: string = '', response: string = '') {
-        super(message);
-        this.name = '{{spec.title | caseUcfirst}}Exception';
-        this.message = message;
-        this.code = code;
-        this.type = type;
-        this.response = response;
-    }
+  code: number;
+  response: string;
+  type: string;
+
+  constructor(message: string, code: number = 0, type: string = '', response: string = '') {
+    super(message);
+    this.name = '{{spec.title | caseUcfirst}}Exception';
+    this.message = message;
+    this.code = code;
+    this.type = type;
+    this.response = response;
+  }
 }

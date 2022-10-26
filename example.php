@@ -106,7 +106,7 @@ try {
         ->setName('Angular')
         ->setDescription('Repo description goes here')
         ->setShortDescription('Repo short description goes here')
-        ->setVersion('0.0.0')
+        ->setVersion('10.0.0')
         ->setURL('https://example.com')
         ->setLogo('https://appwrite.io/v1/images/console.png')
         ->setLicenseContent('test test test')
@@ -118,35 +118,35 @@ try {
         ->setTwitter('appwrite_io')
         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
         ->setDefaultHeaders([
-            'X-Appwrite-Response-Format' => '0.7.0',
+            'X-Appwrite-Response-Format' => '1.0.0',
         ])
     ;
 
     $sdk->generate(__DIR__ . '/examples/angular');
      // common
-     $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.0.x-console.json')));
+    //  $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.0.x-console.json')));
 
-     $sdk
-         ->setName('AngularCommon')
-         ->setDescription('Repo description goes here')
-         ->setShortDescription('Repo short description goes here')
-         ->setVersion('0.0.0')
-         ->setURL('https://example.com')
-         ->setLogo('https://appwrite.io/v1/images/console.png')
-         ->setLicenseContent('test test test')
-         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
-         ->setChangelog('**CHANGELOG**')
-         ->setReadme("## Getting Started")
-         ->setGitUserName('repoowner')
-         ->setGitRepoName('reponame')
-         ->setTwitter('appwrite_io')
-         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-         ->setDefaultHeaders([
-             'X-Appwrite-Response-Format' => '0.7.0',
-         ])
-     ;
+    //  $sdk
+    //      ->setName('AngularCommon')
+    //      ->setDescription('Repo description goes here')
+    //      ->setShortDescription('Repo short description goes here')
+    //      ->setVersion('0.0.0')
+    //      ->setURL('https://example.com')
+    //      ->setLogo('https://appwrite.io/v1/images/console.png')
+    //      ->setLicenseContent('test test test')
+    //      ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+    //      ->setChangelog('**CHANGELOG**')
+    //      ->setReadme("## Getting Started")
+    //      ->setGitUserName('repoowner')
+    //      ->setGitRepoName('reponame')
+    //      ->setTwitter('appwrite_io')
+    //      ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //      ->setDefaultHeaders([
+    //          'X-Appwrite-Response-Format' => '0.7.0',
+    //      ])
+    //  ;
  
-     $sdk->generate(__DIR__ . '/examples/angular-common');
+    //  $sdk->generate(__DIR__ . '/examples/angular-common');
 
     // Deno
 //     $sdk  = new SDK(new Deno(), new Swagger2($spec));

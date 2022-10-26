@@ -1,7 +1,9 @@
-import { {% for definition in spec.definitions %}{{definition.name|caseUcfirst}}, {% endfor %} } from '../appwrite-common';
+{% for definition in spec.definitions %}
+import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
+{% endfor %}
 {% for definition in spec.definitions %}
 {% if definition.name == "document" %}
-export type Document<T> = T & DocumentBase;
+export type Document<T = any> = T & DocumentBase;
 
 /**
  * {{ definition.description }}

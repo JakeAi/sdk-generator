@@ -1,4 +1,6 @@
-import { {% for definition in spec.definitions %}{{definition.name|caseUcfirst}}, {% endfor %} } from '../appwrite-common';
+{% for definition in spec.definitions %}
+import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
+{% endfor %}
 
 /**
  * {{ definition.description }}

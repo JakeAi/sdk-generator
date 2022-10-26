@@ -1,0 +1,70 @@
+import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
+import { AppwriteImageComponent } from './components';
+import { AppwriteContentPipe, AppwriteFileDownloadPipe, AppwriteFilePipe, AppwriteFilesPipe, AppwriteImagePipe } from './pipes';
+import {
+  AppwriteAccountService,
+  AppwriteAvatarsService,
+  AppwriteDatabasesService,
+  AppwriteFunctionsService,
+  AppwriteLocaleService,
+  AppwriteService,
+  AppwriteStorageService,
+  AppwriteTeamsService,
+} from './services';
+import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from './tokens';
+
+export * from './components';
+export * from './exceptions';
+export * from './pipes';
+export * from './services';
+export * from './tokens';
+export * from './util';
+
+export interface AppwriteOptions {
+  appwriteOptionsProvider?: Provider;
+  config?: {
+    tokenGetter?: (key: string) => string;
+    tokenSetter?: (key: string, value: string) => void;
+    tokenClearer?: (key: string) => void;
+    database?: string;
+    endpointUrl: string;
+    projectId: string;
+    storageBucket?: string;
+  };
+}
+
+const ui = [AppwriteContentPipe, AppwriteImageComponent, AppwriteImagePipe, AppwriteFilePipe, AppwriteFilesPipe, AppwriteFileDownloadPipe];
+
+@NgModule({
+  declarations: [...ui],
+  imports: [CommonModule],
+  providers: [],
+  exports: [...ui],
+})
+export class AppwriteAngularModule {
+  static forRoot(options: AppwriteOptions): ModuleWithProviders<AppwriteAngularModule> {
+    const defaultOptions = {
+      tokenSetter: (key, value) => localStorage.setItem(key, value),
+      tokenGetter: (key) => localStorage.getItem(key) || '',
+      tokenClearer: (key) => localStorage.clear(),
+      database: 'default',
+    };
+    return {
+      ngModule: AppwriteAngularModule,
+      providers: [
+        options.appwriteOptionsProvider || { provide: APPWRITE_OPTIONS_TOKEN, useValue: { ...defaultOptions, ...options.config } },
+        { provide: APPWRITE_LOCATION_PROVIDER_TOKEN, useFactory: () => window.location },
+        // AppwriteAuthService,
+        AppwriteService,
+        AppwriteAccountService,
+        AppwriteAvatarsService,
+        AppwriteDatabasesService,
+        AppwriteFunctionsService,
+        AppwriteLocaleService,
+        AppwriteStorageService,
+        AppwriteTeamsService,
+      ],
+    };
+  }
+}

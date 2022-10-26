@@ -20,32 +20,26 @@ describe(AppwriteFilesPipe.name, () => {
     })
   );
 
-  it(
-    'should get more than one document',
-    waitForAsync(async () => {
-      const template = `{{ value | ${pipe} | async | json }}`;
-      const fixture = MockRender(template, { value: [mockDocumentId, mockDocumentId] });
+  it('should get more than one document', waitForAsync(async () => {
+    const template = `{{ '{{' }} value | ${pipe} | async | json }}`;
+    const fixture = MockRender(template, { value: [mockDocumentId, mockDocumentId] });
 
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-      const response = JSON.parse(fixture.nativeElement.innerHTML);
-      expect(response).toEqual([mockValue, mockValue]);
-    })
-  );
+    const response = JSON.parse(fixture.nativeElement.innerHTML);
+    expect(response).toEqual([mockValue, mockValue]);
+  }));
 
-  it(
-    'should pass correct params',
-    waitForAsync(async () => {
-      mockFn.mockClear();
-      const template = `{{ value | ${pipe} | async | json }}`;
-      const fixture = MockRender(template, { value: [mockDocumentId, mockDocumentId] });
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
-      expect(mockFn).toHaveBeenCalledWith(mockDocumentId);
-      expect(mockFn).toHaveBeenCalledTimes(2);
-    })
-  );
+  it('should pass correct params', waitForAsync(async () => {
+    mockFn.mockClear();
+    const template = `{{ '{{' }} value | ${pipe} | async | json }}`;
+    const fixture = MockRender(template, { value: [mockDocumentId, mockDocumentId] });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(mockFn).toHaveBeenCalledWith(mockDocumentId);
+    expect(mockFn).toHaveBeenCalledTimes(2);
+  }));
 });
