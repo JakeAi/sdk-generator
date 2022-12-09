@@ -31,6 +31,12 @@ class AngularCommon extends JS
             ],
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/interfaces/attributes.ts',
+                'template'      => $folder . '/src/lib/interfaces/attributes.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
                 'destination'   => 'src/lib/interfaces/document.ts',
                 'template'      => $folder . '/src/lib/interfaces/document.ts.twig',
                 'minify'        => false,
