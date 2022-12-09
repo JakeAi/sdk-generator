@@ -17,7 +17,7 @@ use Appwrite\SDK\Language\Go;
 use Appwrite\SDK\Language\Deno;
 use Appwrite\SDK\Language\HTTP;
 use Appwrite\SDK\Language\Swift;
-use Appwrite\SDK\Language\SwiftClient;
+use Appwrite\SDK\Language\Apple;
 use Appwrite\SDK\Language\DotNet;
 use Appwrite\SDK\Language\Flutter;
 use Appwrite\SDK\Language\Android;
@@ -25,7 +25,8 @@ use Appwrite\SDK\Language\Kotlin;
 
 try {
 
-    function getSSLPage($url) {
+    function getSSLPage($url)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -41,9 +42,12 @@ try {
     // $spec = getSSLPage('https://appwrite.io/v1/open-api-2.json?extensions=1'); // Enable only with Appwrite local server running on port 80
     // $spec = getSSLPage('https://appwrite.io/v1/open-api-2.json?extensions=1&platform=console'); // Enable only with Appwrite local server running on port 80
     // $spec = file_get_contents('https://appwrite.io/specs/swagger2?platform=client');
+    $platform = 'client';
+    // $platform = 'console';
+    // $platform = 'server';
     $spec = file_get_contents('./specs/swagger2-1.0.x-client.json');
 
-    if(empty($spec)) {
+    if (empty($spec)) {
         throw new Exception('Failed to fetch spec from Appwrite server');
     }
 
@@ -123,56 +127,55 @@ try {
     ;
 
     $sdk->generate(__DIR__ . '/examples/angular');
-     // common
-     $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.0.x-console.json')));
+    // common
+    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.0.x-console.json')));
 
-     $sdk
-         ->setName('AngularCommon')
-         ->setDescription('Repo description goes here')
-         ->setShortDescription('Repo short description goes here')
-         ->setVersion('0.0.0')
-         ->setURL('https://example.com')
-         ->setLogo('https://appwrite.io/v1/images/console.png')
-         ->setLicenseContent('test test test')
-         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
-         ->setChangelog('**CHANGELOG**')
-         ->setReadme("## Getting Started")
-         ->setGitUserName('repoowner')
-         ->setGitRepoName('reponame')
-         ->setTwitter('appwrite_io')
-         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-         ->setDefaultHeaders([
-             'X-Appwrite-Response-Format' => '0.7.0',
-         ])
-     ;
- 
-     $sdk->generate(__DIR__ . '/examples/angular-common');
+    $sdk
+        ->setName('AngularCommon')
+        ->setDescription('Repo description goes here')
+        ->setShortDescription('Repo short description goes here')
+        ->setVersion('0.0.0')
+        ->setURL('https://example.com')
+        ->setLogo('https://appwrite.io/v1/images/console.png')
+        ->setLicenseContent('test test test')
+        ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+        ->setChangelog('**CHANGELOG**')
+        ->setReadme("## Getting Started")
+        ->setGitUserName('repoowner')
+        ->setGitRepoName('reponame')
+        ->setTwitter('appwrite_io')
+        ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+        ->setDefaultHeaders([
+            'X-Appwrite-Response-Format' => '0.7.0',
+        ])
+    ;
+
+    $sdk->generate(__DIR__ . '/examples/angular-common');
 
     // Deno
-//     $sdk  = new SDK(new Deno(), new Swagger2($spec));
+    // $sdk  = new SDK(new Deno(), new Swagger2($spec));
 
-//     $sdk
-//         ->setName('NAME')
-//         ->setDescription('Repo description goes here')
-//         ->setShortDescription('Repo short description goes here')
-//         ->setVersion('0.0.0')
-//         ->setURL('https://example.com')
-//         ->setLogo('https://appwrite.io/v1/images/console.png')
-//         ->setLicenseContent('test test test')
-//         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
-//         ->setChangelog('**CHANGELOG**')
-//         ->setGitUserName('repoowner')
-//         ->setGitRepoName('reponame')
-//         ->setTwitter('appwrite_io')
-//         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-//         ->setDefaultHeaders([
-//             'X-Appwrite-Response-Format' => '0.7.0',
-//         ])
-//     ;
+    // $sdk
+    //     ->setName('NAME')
+    //     ->setDescription('Repo description goes here')
+    //     ->setShortDescription('Repo short description goes here')
+    //     ->setVersion('0.0.0')
+    //     ->setURL('https://example.com')
+    //     ->setLogo('https://appwrite.io/v1/images/console.png')
+    //     ->setLicenseContent('test test test')
+    //     ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+    //     ->setChangelog('**CHANGELOG**')
+    //     ->setGitUserName('repoowner')
+    //     ->setGitRepoName('reponame')
+    //     ->setTwitter('appwrite_io')
+    //     ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //     ->setDefaultHeaders([
+    //         'X-Appwrite-Response-Format' => '0.7.0',
+    //     ]);
 
-//     $sdk->generate(__DIR__ . '/examples/deno');
+    $sdk->generate(__DIR__ . '/examples/deno');
 
-//     // Node
+//     Node
 //     $sdk  = new SDK(new Node(), new Swagger2($spec));
 
 //     $sdk
@@ -392,7 +395,7 @@ try {
 //     $sdk->generate(__DIR__ . '/examples/swift-server');
 
 //     // Swift (Client)
-//     $sdk  = new SDK(new SwiftClient(), new Swagger2($spec));
+//     $sdk  = new SDK(new Apple(), new Swagger2($spec));
 
 //     $sdk
 //         ->setName('NAME')
@@ -411,103 +414,103 @@ try {
 //         ->setDefaultHeaders([
 //             'X-Appwrite-Response-Format' => '0.7.0',
 //         ])
-//     ;
+;
 
-//     $sdk->generate(__DIR__ . '/examples/swift-client');
-    
-//     // DotNet
-//     $sdk  = new SDK(new DotNet(), new Swagger2($spec));
+//     $sdk->generate(__DIR__ . '/examples/apple');
 
-//     $sdk
-//         ->setName('NAME')
-//         ->setDescription('Repo description goes here')
-//         ->setShortDescription('Repo short description goes here')
-//         ->setURL('https://example.com')
-//         ->setLogo('https://appwrite.io/v1/images/console.png')
-//         ->setLicenseContent('test test test')
-//         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
-//         ->setChangelog('**CHANGELOG**')
-//         ->setVersion('0.0.1')
-//         ->setGitUserName('repoowner')
-//         ->setGitRepoName('reponame')
-//         ->setTwitter('appwrite_io')
-//         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-//         ->setDefaultHeaders([
-//             'X-Appwrite-Response-Format' => '0.7.0',
-//         ])
-//     ;
+    //     // DotNet
+    //     $sdk  = new SDK(new DotNet(), new Swagger2($spec));
 
-//     $sdk->generate(__DIR__ . '/examples/dotnet');
+    //     $sdk
+    //         ->setName('NAME')
+    //         ->setDescription('Repo description goes here')
+    //         ->setShortDescription('Repo short description goes here')
+    //         ->setURL('https://example.com')
+    //         ->setLogo('https://appwrite.io/v1/images/console.png')
+    //         ->setLicenseContent('test test test')
+    //         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+    //         ->setChangelog('**CHANGELOG**')
+    //         ->setVersion('0.0.1')
+    //         ->setGitUserName('repoowner')
+    //         ->setGitRepoName('reponame')
+    //         ->setTwitter('appwrite_io')
+    //         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //         ->setDefaultHeaders([
+    //             'X-Appwrite-Response-Format' => '0.7.0',
+    //         ])
+    //     ;
 
-//     // HTTP
-//     $sdk  = new SDK(new HTTP(), new Swagger2($spec));
+    //     $sdk->generate(__DIR__ . '/examples/dotnet');
 
-//     $sdk
-//         ->setName('NAME')
-//         ->setDescription('Repo description goes here')
-//         ->setShortDescription('Repo short description goes here')
-//         ->setURL('https://example.com')
-//         ->setLogo('https://appwrite.io/v1/images/console.png')
-//         ->setLicenseContent('test test test')
-//         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
-//         ->setChangelog('**CHANGELOG**')
-//         ->setVersion('0.0.1')
-//         ->setGitUserName('repoowner')
-//         ->setGitRepoName('reponame')
-//         ->setTwitter('appwrite_io')
-//         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-//     ;
+    //     // HTTP
+    //     $sdk  = new SDK(new HTTP(), new Swagger2($spec));
 
-//     $sdk->generate(__DIR__ . '/examples/HTTP');
+    //     $sdk
+    //         ->setName('NAME')
+    //         ->setDescription('Repo description goes here')
+    //         ->setShortDescription('Repo short description goes here')
+    //         ->setURL('https://example.com')
+    //         ->setLogo('https://appwrite.io/v1/images/console.png')
+    //         ->setLicenseContent('test test test')
+    //         ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+    //         ->setChangelog('**CHANGELOG**')
+    //         ->setVersion('0.0.1')
+    //         ->setGitUserName('repoowner')
+    //         ->setGitRepoName('reponame')
+    //         ->setTwitter('appwrite_io')
+    //         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //     ;
 
-//     // Android
+    //     $sdk->generate(__DIR__ . '/examples/HTTP');
 
-//     $sdk = new SDK(new Android(), new Swagger2($spec));
-    
-//     $sdk
-//         ->setName('Android')
-//         ->setNamespace('io appwrite')
-//         ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
-//         ->setShortDescription('Appwrite Android SDK')
-//         ->setURL('https://example.com')
-//         ->setGitUserName('appwrite')
-//         ->setGitRepoName('sdk-for-android')
-//         ->setLogo('https://appwrite.io/v1/images/console.png')
-//         ->setLicenseContent('test test test')
-//         ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
-//         ->setChangelog('**CHANGELOG**')
-//         ->setVersion('0.0.0-SNAPSHOT')
-//         ->setTwitter('appwrite_io')
-//         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-//         ->setDefaultHeaders([
-//             'x-appwrite-response-format' => '0.7.0',
-//         ])
-//     ;
-//     $sdk->generate(__DIR__ . '/examples/android');
+    //     // Android
 
-//     // Kotlin
-//     $sdk = new SDK(new Kotlin(), new Swagger2($spec));
-    
-//     $sdk
-//         ->setName('Kotlin')
-//         ->setNamespace('io appwrite')
-//         ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
-//         ->setShortDescription('Appwrite Kotlin SDK')
-//         ->setURL('https://example.com')
-//         ->setGitUserName('appwrite')
-//         ->setGitRepoName('sdk-for-kotlin')
-//         ->setLogo('https://appwrite.io/v1/images/console.png')
-//         ->setLicenseContent('test test test')
-//         ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
-//         ->setChangelog('**CHANGELOG**')
-//         ->setVersion('0.0.0-SNAPSHOT')
-//         ->setTwitter('appwrite_io')
-//         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
-//         ->setDefaultHeaders([
-//             'x-appwrite-response-format' => '0.8.0',
-//         ])
-//     ;
-//     $sdk->generate(__DIR__ . '/examples/kotlin');
+    //     $sdk = new SDK(new Android(), new Swagger2($spec));
+
+    //     $sdk
+    //         ->setName('Android')
+    //         ->setNamespace('io appwrite')
+    //         ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
+    //         ->setShortDescription('Appwrite Android SDK')
+    //         ->setURL('https://example.com')
+    //         ->setGitUserName('appwrite')
+    //         ->setGitRepoName('sdk-for-android')
+    //         ->setLogo('https://appwrite.io/v1/images/console.png')
+    //         ->setLicenseContent('test test test')
+    //         ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
+    //         ->setChangelog('**CHANGELOG**')
+    //         ->setVersion('0.0.0-SNAPSHOT')
+    //         ->setTwitter('appwrite_io')
+    //         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //         ->setDefaultHeaders([
+    //             'x-appwrite-response-format' => '0.7.0',
+    //         ])
+    //     ;
+    //     $sdk->generate(__DIR__ . '/examples/android');
+
+    //     // Kotlin
+    //     $sdk = new SDK(new Kotlin(), new Swagger2($spec));
+
+    //     $sdk
+    //         ->setName('Kotlin')
+    //         ->setNamespace('io appwrite')
+    //         ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
+    //         ->setShortDescription('Appwrite Kotlin SDK')
+    //         ->setURL('https://example.com')
+    //         ->setGitUserName('appwrite')
+    //         ->setGitRepoName('sdk-for-kotlin')
+    //         ->setLogo('https://appwrite.io/v1/images/console.png')
+    //         ->setLicenseContent('test test test')
+    //         ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
+    //         ->setChangelog('**CHANGELOG**')
+    //         ->setVersion('0.0.0-SNAPSHOT')
+    //         ->setTwitter('appwrite_io')
+    //         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //         ->setDefaultHeaders([
+    //             'x-appwrite-response-format' => '0.8.0',
+    //         ])
+    //     ;
+    //     $sdk->generate(__DIR__ . '/examples/kotlin');
 }
 catch (Exception $exception) {
     echo 'Error: ' . $exception->getMessage() . ' on ' . $exception->getFile() . ':' . $exception->getLine() . "\n";
