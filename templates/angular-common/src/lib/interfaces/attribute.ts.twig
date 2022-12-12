@@ -1,0 +1,6 @@
+{% for definition in spec.definitions %}
+{% if (definition.name starts with 'attribute') and definition.name ends with 'List' == false %}
+import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
+{% endif %}
+{% endfor %}
+export type Attribute = {% for definition in spec.definitions |filter(v=> (v.name starts with 'attribute') and (v.name ends with 'List' == false)) %} {{definition.name | caseUcfirst}} {% if not loop.last %}| {% endif %} {% endfor %}

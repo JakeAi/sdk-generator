@@ -5,18 +5,6 @@ import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
 {% if definition.name == "document" %}
 export type Document<T = any> = T & DocumentBase;
 
-/**
- * {{ definition.description }}
- */
-export class AppWriteBaseModel implements Partial<DocumentBase> {
-{% for property in definition.properties %}
-  /**
-   * {{ property.description }}
-   */
-  {{ property.name }}?{% if not property.required %}?{% endif %}: {{ property | getSubSchema(spec) | raw }} = {{ property | getDefaultValue(spec)}};
-{% endfor %}
-}
-
 export interface DocumentBase {
 {% for property in definition.properties %}
   /**

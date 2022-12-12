@@ -1,3 +1,4 @@
+import { Attribute } from './attribute';
 {% for definition in spec.definitions %}
 import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
 {% endfor %}

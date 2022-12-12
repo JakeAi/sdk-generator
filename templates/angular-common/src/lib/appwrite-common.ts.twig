@@ -1,6 +1,7 @@
 {% for definition in spec.definitions %}
 export * from './interfaces/{{definition.name}}';
 {% endfor %}
+export * from './interfaces/attribute';
 export * from './class';
 export * from './realtime';
 

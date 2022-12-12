@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Attribute } from '@appwrite/common';
 import { {% for definition in spec.definitions %}{{definition.name|caseUcfirst}}{% if definition.name == 'file'%} as AWFile{% endif %}, {% endfor %} Payload, UploadProgress } from '@appwrite/common';
 import URLParse from 'url-parse';
 import { AppwriteException } from '../exceptions';
