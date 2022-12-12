@@ -45,17 +45,17 @@ try {
     $platform = 'client';
     // $platform = 'console';
     // $platform = 'server';
-    $spec = file_get_contents('./specs/swagger2-1.0.x-client.json');
+    $spec = file_get_contents('./specs/swagger2-1.1.x-client.json');
 
     if (empty($spec)) {
         throw new Exception('Failed to fetch spec from Appwrite server');
     }
 
     // PHP
-    $php = new PHP();
-    $php
-        ->setComposerVendor('appwrite')
-        ->setComposerPackage('appwrite');
+    // $php = new PHP();
+    // $php
+        // ->setComposerVendor('appwrite')
+        // ->setComposerPackage('appwrite');
     // $sdk  = new SDK($php, new Swagger2($spec));
 
     // $sdk
@@ -128,7 +128,7 @@ try {
 
     $sdk->generate(__DIR__ . '/examples/angular');
     // common
-    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.0.x-console.json')));
+    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.1.x-console.json')));
 
     $sdk
         ->setName('AngularCommon')
@@ -173,7 +173,7 @@ try {
     //         'X-Appwrite-Response-Format' => '0.7.0',
     //     ]);
 
-    $sdk->generate(__DIR__ . '/examples/deno');
+    // $sdk->generate(__DIR__ . '/examples/deno');
 
 //     Node
 //     $sdk  = new SDK(new Node(), new Swagger2($spec));

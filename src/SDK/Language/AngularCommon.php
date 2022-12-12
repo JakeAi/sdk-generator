@@ -31,8 +31,8 @@ class AngularCommon extends JS
             ],
             [
                 'scope'         => 'default',
-                'destination'   => 'src/lib/interfaces/attributes.ts',
-                'template'      => $folder . '/src/lib/interfaces/attributes.ts.twig',
+                'destination'   => 'src/lib/interfaces/attribute.ts',
+                'template'      => $folder . '/src/lib/interfaces/attribute.ts.twig',
                 'minify'        => false,
             ],
             [
@@ -244,6 +244,9 @@ class AngularCommon extends JS
             case self::TYPE_ARRAY:
                 if (!empty($parameter['array']['type'])) {
                     return $this->getTypeName($parameter['array']) . '[]';
+                }
+                if($parameter['name']=='attributes'){
+                    return 'Attribute[]';
                 }
                 return 'string[]';
             case self::TYPE_FILE:
