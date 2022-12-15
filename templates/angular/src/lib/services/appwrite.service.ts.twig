@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, Injector } from '@angular/core';
 import { Headers, HttpMethods, Payload } from '@appwrite/common';
-import URLParse from 'url-parse';
 import { AppwriteOptions } from '../appwrite-angular.module';
 import { AppwriteException } from '../exceptions';
 import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
@@ -93,7 +92,7 @@ export class AppwriteService {
 {% endfor %}
 
   public async call<T>(method: HttpMethods, path: string, headers: Headers = {}, params: Payload = {}): Promise<T> {
-    const url = new URLParse(this.config.endpoint + path);
+    const url = new URL(this.config.endpoint + path);
     headers = { 'content-type': 'application/json', ...this.headers, ...headers };
     let body: any;
     headers['X-Fallback-Cookies'] = this.appwriteOptions?.tokenGetter('cookieFallback');
@@ -102,7 +101,9 @@ export class AppwriteService {
     Object.keys(params).forEach((key) => (params[key] === undefined ? delete params[key] : {}));
 
     if (method === 'GET') {
-      url.set('query', flatten(params));
+      for (const [key, value] of Object.entries(flatten(params))) {
+        url.searchParams.append(key, value);
+      }
     } else {
       switch (headers['content-type']) {
         case 'application/json': {
@@ -114,7 +115,7 @@ export class AppwriteService {
 
           for (const key in params) {
             if (Array.isArray(params[key])) {
-              formData.append(key + '[]', params[key].join(','));
+              params[key].forEach((value: any) => formData.append(key + '[]', value));
             } else {
               formData.append(key, params[key]);
             }

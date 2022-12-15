@@ -398,9 +398,9 @@ class Angular extends JS
     public function getReturn(array $method, array $spec): string
     {
         if ($method['type'] === 'webAuth') {
-            return 'void | URLParse';
+            return 'void | URL';
         } elseif ($method['type'] === 'location') {
-            return 'URLParse';
+            return 'URL';
         }
         if (array_key_exists('responseModel', $method) && !empty($method['responseModel']) && $method['responseModel'] !== 'any') {
             $ret = '';

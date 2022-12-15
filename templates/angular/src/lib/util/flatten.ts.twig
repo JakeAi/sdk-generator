@@ -5,6 +5,7 @@ export function flatten(data: Payload, prefix: string = ''): Payload {
 
   for (const key in data) {
     const value = data[key];
+    if (!value) { continue; }
     const finalKey = prefix ? `${prefix}[${key}]` : key;
 
     if (Array.isArray(value)) {
