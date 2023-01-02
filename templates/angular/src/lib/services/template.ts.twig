@@ -2,24 +2,11 @@ import { Injectable } from '@angular/core';
 import { Attribute } from '@appwrite/common';
 import { {% for definition in spec.definitions %}{{definition.name|caseUcfirst}}{% if definition.name == 'file'%} as AWFile{% endif %}, {% endfor %} Payload, UploadProgress } from '@appwrite/common';
 import { AppwriteException } from '../exceptions';
-import { flatten } from '../util';
+import { flatten, prepareSearchParams } from '../util';
 import { AppwriteService } from './appwrite.service';
 
-
 @Injectable()
-export class Appwrite{{ service.name | caseUcfirst }}Service {#{% if     service.name == 'account' %} 
-<T = User>
-{% elseif service.name == 'avatars' %} 
-{% elseif service.name == 'databases' %}
-<T = Document<any>> 
-{% elseif service.name == 'functions' %} 
-<T = Execution>
-{% elseif service.name == 'locale' %} 
-{% elseif service.name == 'storage' %} 
-<T = AppwriteFile>
-{% elseif service.name == 'teams' %} 
-<T = Team>
-{% endif %}#}{
+export class Appwrite{{ service.name | caseUcfirst }}Service {
   constructor(private appwriteService: AppwriteService) {}
 {% for method in service.methods %}
 
@@ -58,9 +45,7 @@ export class Appwrite{{ service.name | caseUcfirst }}Service {#{% if     service
 {% endfor %}
 {% endfor %}
 {% endif %}
-            for (const [key, value] of Object.entries(flatten(payload))) {
-                uri.searchParams.append(key, value);
-            }
+            prepareSearchParams(uri, payload);
 {% endif %}
 {% if method.type == 'webAuth' %}
 

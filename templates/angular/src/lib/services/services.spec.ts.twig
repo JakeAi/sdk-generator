@@ -1,0 +1,15 @@
+import { UploadProgress } from '@appwrite/common';
+
+{% for service in spec.services %}
+{% for method in service.methods %}
+export interface {{service.name | caseUcfirst}}{{ method.name | caseUcfirst }}Params {
+{% for parameter in method.parameters.body %}
+  {{ parameter.name | caseCamel | escapeKeyword }}{% if not parameter.required %}?{% endif %}: {{ parameter | getPropertyType(method) | raw }};
+{% endfor %}
+{% for parameter in method.parameters.query %}
+  {{ parameter.name | caseCamel | escapeKeyword }}{% if not parameter.required %}?{% endif %}: {{ parameter | getPropertyType(method) | raw }};
+{% endfor %}
+{% if 'multipart/form-data' in method.consumes %}; onProgress: (progress: UploadProgress) => {}{% endif %}
+}
+{% endfor %}
+{% endfor %}

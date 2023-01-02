@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Headers, HttpMethods, Payload } from '@appwrite/common';
 import { AppwriteOptions } from '../appwrite-angular.module';
 import { AppwriteException } from '../exceptions';
 import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
-import { flatten } from '../util';
+import { prepareFormData } from '../util';
 
 @Injectable()
 export class AppwriteService {
@@ -31,7 +31,6 @@ export class AppwriteService {
   constructor(
     @Inject(APPWRITE_OPTIONS_TOKEN) public appwriteOptions: AppwriteOptions['config'],
     @Inject(APPWRITE_LOCATION_PROVIDER_TOKEN) public locationProvider,
-    private injector: Injector,
     private http: HttpClient
   ) {
     if (!appwriteOptions || !appwriteOptions.endpointUrl || !appwriteOptions.endpointUrl) {
@@ -93,17 +92,15 @@ export class AppwriteService {
 
   public async call<T>(method: HttpMethods, path: string, headers: Headers = {}, params: Payload = {}): Promise<T> {
     const url = new URL(this.config.endpoint + path);
-    headers = { 'content-type': 'application/json', ...this.headers, ...headers };
     let body: any;
+    headers = { 'content-type': 'application/json', ...this.headers, ...headers };
     headers['X-Fallback-Cookies'] = this.appwriteOptions?.tokenGetter('cookieFallback');
 
     // Clean up undefined params
     Object.keys(params).forEach((key) => (params[key] === undefined ? delete params[key] : {}));
 
     if (method === 'GET') {
-      for (const [key, value] of Object.entries(flatten(params))) {
-        url.searchParams.append(key, value);
-      }
+      prepareSearchParams(url, params);
     } else {
       switch (headers['content-type']) {
         case 'application/json': {
@@ -112,16 +109,7 @@ export class AppwriteService {
         }
         case 'multipart/form-data': {
           const formData = new FormData();
-
-          for (const key in params) {
-            if (Array.isArray(params[key])) {
-              params[key].forEach((value: any) => formData.append(key + '[]', value));
-            } else {
-              formData.append(key, params[key]);
-            }
-          }
-
-          body = formData;
+          body = prepareFormData(formData, params);
           delete headers['content-type'];
           break;
         }

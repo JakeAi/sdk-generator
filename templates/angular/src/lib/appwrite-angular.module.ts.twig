@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { AppwriteImageComponent } from './components';
 import { AppwriteContentPipe, AppwriteFileDownloadPipe, AppwriteFilePipe, AppwriteFilesPipe, AppwriteImagePipe } from './pipes';
@@ -38,7 +39,7 @@ const ui = [AppwriteContentPipe, AppwriteImageComponent, AppwriteImagePipe, Appw
 
 @NgModule({
   declarations: [...ui],
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   providers: [],
   exports: [...ui],
 })

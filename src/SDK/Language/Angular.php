@@ -140,6 +140,11 @@ class Angular extends JS
                 'destination'   => 'src/lib/services/appwrite.service.ts',
                 'template'      => $folder . '/src/lib/services/appwrite.service.ts.twig',
                 'minify'        => false,
+            ],            [
+                'scope'         => 'method',
+                'destination'   => 'src/lib/services/services.spec.ts',
+                'template'      => $folder . '/src/lib/services/services.spec.ts.twig',
+                'minify'        => false,
             ],
             [
                 'scope'         => 'default',
@@ -180,6 +185,18 @@ class Angular extends JS
                 'scope'         => 'default',
                 'destination'   => 'src/lib/util/flatten.ts',
                 'template'      => $folder . '/src/lib/util/flatten.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/util/prepare-form-data.ts',
+                'template'      => $folder . '/src/lib/util/prepare-form-data.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/util/prepare-search-params.ts',
+                'template'      => $folder . '/src/lib/util/prepare-search-params.ts.twig',
                 'minify'        => false,
             ],
             [
