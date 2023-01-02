@@ -1,0 +1,57 @@
+import { DocumentBase, UploadProgress } from '@appwrite/common';
+
+export const endpoint = 'http://localhost/v1';
+export const project = '888888888';
+
+export const genericId = '5f7a1c1e6e0b0';
+export const genericUrl = 'https://www.minnich-mfg.com';
+export const genericUserId = 'userId';
+export const genericPhone = '(111) 111-1111';
+export const genericEmail = 'email';
+export const genericPassword = 'password';
+export const genericName = 'test user';
+export const genericSessionId = '564';
+export const genericSecret = 'secret';
+export const genericTeamId = 'teamId';
+export const genericTeamName = 'teamName';
+export const genericTeamRoles = ['owner', 'member'];
+export const genericPermissions = ['read', 'write'];
+export const genericMembershipId = 'membershipId';
+export const genericFunctionId = 'functionId';
+export const genericExecutionId = 'executionId';
+export const genericHeaders = {};
+
+export const genericWidth = 100;
+export const genericHeight = 100;
+export const genericGravity: 'center' | 'top-left' | 'top' | 'top-right' | 'left' | 'right' | 'bottom-left' | 'bottom' | 'bottom-right' = 'center';
+export const genericQuality = 75;
+export const genericBorderWidth = 2;
+export const genericBorderColor = '333333';
+export const genericBorderRadius = 20;
+export const genericOpacity = 1;
+export const genericRotation = 180;
+export const genericBackground = '666666';
+export const genericOutput = 'jpg';
+
+export const genericDocumentBase: DocumentBase = {
+  $id: genericId,
+  $collectionId: genericId,
+  $createdAt: '2020-10-05T18:30:02.000Z',
+  $updatedAt: '2020-10-05T18:30:02.000Z',
+  $databaseId: genericId,
+  $permissions: ['read', 'write'],
+};
+
+{% for service in spec.services %}
+{% for method in service.methods %}
+export interface {{service.name | caseUcfirst}}{{ method.name | caseUcfirst }}Params {
+{% for parameter in method.parameters.body %}
+  {{ parameter.name | caseCamel | escapeKeyword }}{% if not parameter.required %}?{% endif %}: {{ parameter | getPropertyType(method) | raw }};
+{% endfor %}
+{% for parameter in method.parameters.query %}
+  {{ parameter.name | caseCamel | escapeKeyword }}{% if not parameter.required %}?{% endif %}: {{ parameter | getPropertyType(method) | raw }};
+{% endfor %}
+{% if 'multipart/form-data' in method.consumes %}; onProgress: (progress: UploadProgress) => {}{% endif %}
+}
+{% endfor %}
+{% endfor %}

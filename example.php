@@ -46,7 +46,7 @@ try {
     $platform = 'client';
     // $platform = 'console';
     // $platform = 'server';
-    $spec = file_get_contents('./specs/swagger2-1.1.x-client.json');
+    $spec = file_get_contents('./specs/swagger2-1.2.x-client.json');
 
     if (empty($spec)) {
         throw new Exception('Failed to fetch spec from Appwrite server');
@@ -111,7 +111,7 @@ try {
         ->setName('Angular')
         ->setDescription('Repo description goes here')
         ->setShortDescription('Repo short description goes here')
-        ->setVersion('10.1.0')
+        ->setVersion('10.2.0')
         ->setPlatform('client')
         ->setURL('https://example.com')
         ->setLogo('https://appwrite.io/v1/images/console.png')
@@ -130,7 +130,7 @@ try {
 
     $sdk->generate(__DIR__ . '/examples/angular');
     // common
-    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.1.x-console.json')));
+    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.2.x-console.json')));
 
     $sdk
         ->setName('AngularCommon')

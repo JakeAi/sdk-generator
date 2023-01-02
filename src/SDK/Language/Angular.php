@@ -142,8 +142,8 @@ class Angular extends JS
                 'minify'        => false,
             ],            [
                 'scope'         => 'method',
-                'destination'   => 'src/lib/services/services.spec.ts',
-                'template'      => $folder . '/src/lib/services/services.spec.ts.twig',
+                'destination'   => 'src/lib/services/services-spec.ts',
+                'template'      => $folder . '/src/lib/services/services-spec.ts.twig',
                 'minify'        => false,
             ],
             [

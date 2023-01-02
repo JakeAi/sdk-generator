@@ -4,7 +4,7 @@ import { Headers, HttpMethods, Payload } from '@appwrite/common';
 import { AppwriteOptions } from '../appwrite-angular.module';
 import { AppwriteException } from '../exceptions';
 import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
-import { prepareFormData } from '../util';
+import { prepareFormData, prepareSearchParams } from '../util';
 
 @Injectable()
 export class AppwriteService {
