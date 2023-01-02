@@ -2,6 +2,7 @@
 
 include_once 'vendor/autoload.php';
 
+use Appwrite\SDK\Language\GraphQL;
 use Appwrite\Spec\Swagger2;
 use Appwrite\SDK\SDK;
 use Appwrite\SDK\Language\Web;
@@ -15,7 +16,7 @@ use Appwrite\SDK\Language\Ruby;
 use Appwrite\SDK\Language\Dart;
 use Appwrite\SDK\Language\Go;
 use Appwrite\SDK\Language\Deno;
-use Appwrite\SDK\Language\HTTP;
+use Appwrite\SDK\Language\REST;
 use Appwrite\SDK\Language\Swift;
 use Appwrite\SDK\Language\Apple;
 use Appwrite\SDK\Language\DotNet;
@@ -512,6 +513,85 @@ try {
     //         ])
     //     ;
     //     $sdk->generate(__DIR__ . '/examples/kotlin');
+    // REST
+    // $sdk  = new SDK(new REST(), new Swagger2($spec));
+
+    // $sdk
+    //     ->setName('NAME')
+    //     ->setDescription('Repo description goes here')
+    //     ->setShortDescription('Repo short description goes here')
+    //     ->setURL('https://example.com')
+    //     ->setLogo('https://appwrite.io/v1/images/console.png')
+    //     ->setLicenseContent('test test test')
+    //     ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+    //     ->setChangelog('**CHANGELOG**')
+    //     ->setVersion('0.0.1')
+    //     ->setGitUserName('repoowner')
+    //     ->setGitRepoName('reponame')
+    //     ->setTwitter('appwrite_io')
+    //     ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    // ;
+
+    // $sdk->generate(__DIR__ . '/examples/REST');
+
+    // Android
+
+    // $sdk = new SDK(new Android(), new Swagger2($spec));
+    
+    // $sdk
+    //     ->setName('Android')
+    //     ->setNamespace('io appwrite')
+    //     ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
+    //     ->setShortDescription('Appwrite Android SDK')
+    //     ->setURL('https://example.com')
+    //     ->setGitUserName('appwrite')
+    //     ->setGitRepoName('sdk-for-android')
+    //     ->setLogo('https://appwrite.io/v1/images/console.png')
+    //     ->setLicenseContent('test test test')
+    //     ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
+    //     ->setChangelog('**CHANGELOG**')
+    //     ->setVersion('0.0.0-SNAPSHOT')
+    //     ->setTwitter('appwrite_io')
+    //     ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //     ->setDefaultHeaders([
+    //         'x-appwrite-response-format' => '0.7.0',
+    //     ])
+    // ;
+    // $sdk->generate(__DIR__ . '/examples/android');
+
+    // Kotlin
+    // $sdk = new SDK(new Kotlin(), new Swagger2($spec));
+    
+    // $sdk
+    //     ->setName('Kotlin')
+    //     ->setNamespace('io appwrite')
+    //     ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
+    //     ->setShortDescription('Appwrite Kotlin SDK')
+    //     ->setURL('https://example.com')
+    //     ->setGitUserName('appwrite')
+    //     ->setGitRepoName('sdk-for-kotlin')
+    //     ->setLogo('https://appwrite.io/v1/images/console.png')
+    //     ->setLicenseContent('test test test')
+    //     ->setWarning('**This SDK is compatible with Appwrite server version 0.7.x. For older versions, please check previous releases.**')
+    //     ->setChangelog('**CHANGELOG**')
+    //     ->setVersion('0.0.0-SNAPSHOT')
+    //     ->setTwitter('appwrite_io')
+    //     ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+    //     ->setDefaultHeaders([
+    //         'x-appwrite-response-format' => '0.8.0',
+    //     ])
+    // ;
+    // $sdk->generate(__DIR__ . '/examples/kotlin');
+
+    // // GraphQL
+    // $sdk = new SDK(new GraphQL(), new Swagger2($spec));
+
+    // $sdk
+    //     ->setName('GraphQL')
+    //     ->setDescription('Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Flutter SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to https://appwrite.io/docs')
+    //     ->setLogo('https://appwrite.io/v1/images/console.png')
+    // ;
+    // $sdk->generate(__DIR__ . '/examples/graphql');
 }
 catch (Exception $exception) {
     echo 'Error: ' . $exception->getMessage() . ' on ' . $exception->getFile() . ':' . $exception->getLine() . "\n";
