@@ -25,7 +25,6 @@ use Appwrite\SDK\Language\Android;
 use Appwrite\SDK\Language\Kotlin;
 
 try {
-
     function getSSLPage($url) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -37,14 +36,8 @@ try {
         curl_close($ch);
         return $result;
     }
-
-
-    $platform = 'client';
-    // $platform = 'console';
-    // $platform = 'server';
-
-    // $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-{$platform}.json");
-    $spec = file_get_contents('./specs/swagger2-1.2.x-client.json');
+    // $spec = file_get_contents('./specs/swagger2-latest-client.json');
+    $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-client.json");
 
     if(empty($spec)) {
         throw new Exception('Failed to fetch spec from Appwrite server');
@@ -58,7 +51,7 @@ try {
         ->setName('Angular')
         ->setDescription('Repo description goes here')
         ->setShortDescription('Repo short description goes here')
-        ->setVersion('10.2.0')
+        ->setVersion('11.0.0')
         ->setPlatform('client')
         ->setURL('https://example.com')
         ->setLogo('https://appwrite.io/v1/images/console.png')
@@ -77,7 +70,7 @@ try {
 
     $sdk->generate(__DIR__ . '/examples/angular');
     // Angular Common
-    $sdk  = new SDK(new AngularCommon(), new Swagger2(file_get_contents('./specs/swagger2-1.2.x-console.json')));
+    $sdk  = new SDK(new AngularCommon(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-console.json")));
 
     $sdk
         ->setName('AngularCommon')
@@ -99,7 +92,7 @@ try {
         ])
     ;
 
-    $sdk->generate(__DIR__ . '/examples/angular-common');
+    // $sdk->generate(__DIR__ . '/examples/angular-common');
 
 }
 catch (Exception $exception) {

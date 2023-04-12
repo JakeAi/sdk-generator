@@ -24,18 +24,18 @@ class Angular extends JS
         $folder = 'angular';
         return [
 
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/components/appwrite-image.component.ts',
-                'template'      => $folder . '/src/lib/components/appwrite-image.component.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/lib/components/index.ts',
-                'template'      => $folder . '/src/lib/components/index.ts.twig',
-                'minify'        => false,
-            ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'src/lib/components/appwrite-image.component.ts',
+            //     'template'      => $folder . '/src/lib/components/appwrite-image.component.ts.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'src/lib/components/index.ts',
+            //     'template'      => $folder . '/src/lib/components/index.ts.twig',
+            //     'minify'        => false,
+            // ],
 
 
 
@@ -189,8 +189,18 @@ class Angular extends JS
             ],
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/util/prepare-form-data.spec.ts',
+                'template'      => $folder . '/src/lib/util/prepare-form-data.spec.ts.twig',
+                'minify'        => false,
+            ],            [
+                'scope'         => 'default',
                 'destination'   => 'src/lib/util/prepare-form-data.ts',
                 'template'      => $folder . '/src/lib/util/prepare-form-data.ts.twig',
+                'minify'        => false,
+            ],            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/util/prepare-search-params.spec.ts',
+                'template'      => $folder . '/src/lib/util/prepare-search-params.spec.ts.twig',
                 'minify'        => false,
             ],
             [

@@ -1,4 +1,5 @@
 {
+  "name": "appwrite-angular",
   "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/appwrite/angular/src",
@@ -6,7 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/appwrite/angular"],
+      "outputs": ["{workspaceRoot}/dist/libs/appwrite/angular"],
       "options": {
         "project": "libs/appwrite/angular/ng-package.json"
       },
@@ -22,7 +23,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/appwrite/angular"],
+      "outputs": ["{workspaceRoot}/coverage/libs/appwrite/angular"],
       "options": {
         "jestConfig": "libs/appwrite/angular/jest.config.ts",
         "passWithNoTests": true
