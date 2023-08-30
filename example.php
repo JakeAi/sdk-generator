@@ -92,7 +92,7 @@ try {
         ])
     ;
 
-    // $sdk->generate(__DIR__ . '/examples/angular-common');
+    $sdk->generate(__DIR__ . '/examples/angular-common');
 
 }
 catch (Exception $exception) {

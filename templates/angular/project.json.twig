@@ -6,7 +6,7 @@
   "prefix": "mm-mono",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/appwrite/angular"],
       "options": {
         "project": "libs/appwrite/angular/ng-package.json"
@@ -22,7 +22,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/appwrite/angular"],
       "options": {
         "jestConfig": "libs/appwrite/angular/jest.config.ts",
@@ -30,7 +30,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/appwrite/angular/src/**/*.ts", "libs/appwrite/angular/src/**/*.html"]
       },
