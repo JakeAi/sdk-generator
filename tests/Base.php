@@ -91,6 +91,7 @@ abstract class Base extends TestCase
         'create("member:memberId")',
         'update("users/verified")',
         'update("user:userid/unverified")',
+        'create("label:admin")',
     ];
 
     const ID_HELPER_RESPONSES = [
@@ -103,6 +104,10 @@ abstract class Base extends TestCase
     protected array $build = [];
     protected string $command = '';
     protected array $expectedOutput = [];
+    protected string $sdkName;
+    protected string $sdkPlatform;
+    protected string $sdkLanguage;
+    protected string $version;
 
     public function setUp(): void
     {
