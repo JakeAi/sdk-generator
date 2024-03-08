@@ -51,7 +51,7 @@ try {
         ->setName('Angular')
         ->setDescription('Repo description goes here')
         ->setShortDescription('Repo short description goes here')
-        ->setVersion('11.0.0')
+        ->setVersion('12.0.0')
         ->setPlatform('client')
         ->setURL('https://example.com')
         ->setLogo('https://appwrite.io/v1/images/console.png')
@@ -64,7 +64,7 @@ try {
         ->setTwitter('appwrite_io')
         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
         ->setDefaultHeaders([
-            'X-Appwrite-Response-Format' => '1.2.0',
+            'X-Appwrite-Response-Format' => '1.4.0',
         ])
     ;
 
