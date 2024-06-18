@@ -23,6 +23,7 @@ use Appwrite\SDK\Language\DotNet;
 use Appwrite\SDK\Language\Flutter;
 use Appwrite\SDK\Language\Android;
 use Appwrite\SDK\Language\Kotlin;
+use Appwrite\SDK\Language\ReactNative;
 
 try {
     function getSSLPage($url) {
@@ -39,11 +40,12 @@ try {
     // $spec = file_get_contents('./specs/swagger2-latest-client.json');
     $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-client.json");
 
+
     if(empty($spec)) {
         throw new Exception('Failed to fetch spec from Appwrite server');
     }
 
-    
+
     // Angular
     $sdk  = new SDK(new Angular(), new Swagger2($spec));
 
@@ -64,7 +66,7 @@ try {
         ->setTwitter('appwrite_io')
         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
         ->setDefaultHeaders([
-            'X-Appwrite-Response-Format' => '1.4.0',
+            'X-Appwrite-Response-Format' => '1.5.0',
         ])
     ;
 
@@ -88,7 +90,7 @@ try {
         ->setTwitter('appwrite_io')
         ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
         ->setDefaultHeaders([
-            'X-Appwrite-Response-Format' => '1.2.0',
+            'X-Appwrite-Response-Format' => '1.5.0',
         ])
     ;
 

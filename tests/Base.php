@@ -6,6 +6,9 @@ use Appwrite\SDK\Language;
 use Appwrite\SDK\SDK;
 use Appwrite\Spec\Swagger2;
 use PHPUnit\Framework\TestCase;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -13,8 +16,7 @@ error_reporting(E_ALL);
 
 abstract class Base extends TestCase
 {
-
-    const FOO_RESPONSES = [
+    protected const FOO_RESPONSES = [
         'GET:/v1/mock/tests/foo:passed',
         'POST:/v1/mock/tests/foo:passed',
         'PUT:/v1/mock/tests/foo:passed',
@@ -22,7 +24,7 @@ abstract class Base extends TestCase
         'DELETE:/v1/mock/tests/foo:passed',
     ];
 
-    const BAR_RESPONSES = [
+    protected const BAR_RESPONSES = [
         'GET:/v1/mock/tests/bar:passed',
         'POST:/v1/mock/tests/bar:passed',
         'PUT:/v1/mock/tests/bar:passed',
@@ -30,58 +32,76 @@ abstract class Base extends TestCase
         'DELETE:/v1/mock/tests/bar:passed',
     ];
 
-    const GENERAL_RESPONSES = [
+    protected const GENERAL_RESPONSES = [
         'GET:/v1/mock/tests/general/redirect/done:passed',
-        'POST:/v1/mock/tests/general/upload:passed',
     ];
 
-    const EXTENDED_GENERAL_RESPONSES = [
+    protected const OAUTH_RESPONSES = [
+        'https://localhost?code=abcdef&state=123456',
+    ];
+
+    protected const DOWNLOAD_RESPONSES = [
         'GET:/v1/mock/tests/general/download:passed',
     ];
 
-    const COOKIE_RESPONSES = [
+    protected const COOKIE_RESPONSES = [
         'GET:/v1/mock/tests/general/set-cookie:passed',
         'GET:/v1/mock/tests/general/get-cookie:passed',
     ];
 
-    const LARGE_FILE_RESPONSES = [
+    protected const ENUM_RESPONSES = [
+        'POST:/v1/mock/tests/general/enum:passed',
+    ];
+
+    protected const UPLOAD_RESPONSE = [
         'POST:/v1/mock/tests/general/upload:passed',
     ];
 
-    const EXCEPTION_RESPONSES = [
+    protected const UPLOAD_RESPONSES = [
+        'POST:/v1/mock/tests/general/upload:passed',
+        'POST:/v1/mock/tests/general/upload:passed',
+        'POST:/v1/mock/tests/general/upload:passed',
+        'POST:/v1/mock/tests/general/upload:passed',
+    ];
+
+    protected const EXCEPTION_RESPONSES = [
         'Mock 400 error',
         'Mock 500 error',
         'This is a text error',
     ];
 
-    const REALTIME_RESPONSES = [
+    protected const REALTIME_RESPONSES = [
         'WS:/v1/realtime:passed',
     ];
 
-    const QUERY_HELPER_RESPONSES = [
-        'equal("released", [true])',
-        'equal("title", ["Spiderman","Dr. Strange"])',
-        'notEqual("title", ["Spiderman"])',
-        'lessThan("releasedYear", [1990])',
-        'greaterThan("releasedYear", [1990])',
-        'search("name", ["john"])',
-        'isNull("name")',
-        'isNotNull("name")',
-        'between("age", [50,100])',
-        'between("age", [50.5,100.5])',
-        'between("name", ["Anna","Brad"])',
-        'startsWith("name", ["Ann"])',
-        'endsWith("name", ["nne"])',
-        'select(["name","age"])',
-        'orderAsc("title")',
-        'orderDesc("title")',
-        'cursorAfter("my_movie_id")',
-        'cursorBefore("my_movie_id")',
-        'limit(50)',
-        'offset(20)',
+    protected const QUERY_HELPER_RESPONSES = [
+        '{"method":"equal","attribute":"released","values":[true]}',
+        '{"method":"equal","attribute":"title","values":["Spiderman","Dr. Strange"]}',
+        '{"method":"notEqual","attribute":"title","values":["Spiderman"]}',
+        '{"method":"lessThan","attribute":"releasedYear","values":[1990]}',
+        '{"method":"greaterThan","attribute":"releasedYear","values":[1990]}',
+        '{"method":"search","attribute":"name","values":["john"]}',
+        '{"method":"isNull","attribute":"name"}',
+        '{"method":"isNotNull","attribute":"name"}',
+        '{"method":"between","attribute":"age","values":[50,100]}',
+        '{"method":"between","attribute":"age","values":[50.5,100.5]}',
+        '{"method":"between","attribute":"name","values":["Anna","Brad"]}',
+        '{"method":"startsWith","attribute":"name","values":["Ann"]}',
+        '{"method":"endsWith","attribute":"name","values":["nne"]}',
+        '{"method":"select","values":["name","age"]}',
+        '{"method":"orderAsc","attribute":"title"}',
+        '{"method":"orderDesc","attribute":"title"}',
+        '{"method":"cursorAfter","values":["my_movie_id"]}',
+        '{"method":"cursorBefore","values":["my_movie_id"]}',
+        '{"method":"limit","values":[50]}',
+        '{"method":"offset","values":[20]}',
+        '{"method":"contains","attribute":"title","values":["Spider"]}',
+        '{"method":"contains","attribute":"labels","values":["first"]}',
+        '{"method":"or","values":[{"method":"equal","attribute":"released","values":[true]},{"method":"lessThan","attribute":"releasedYear","values":[1990]}]}',
+        '{"method":"and","values":[{"method":"equal","attribute":"released","values":[false]},{"method":"greaterThan","attribute":"releasedYear","values":[2015]}]}'
     ];
 
-    const PERMISSION_HELPER_RESPONSES = [
+    protected const PERMISSION_HELPER_RESPONSES = [
         'read("any")',
         'write("user:userid")',
         'create("users")',
@@ -94,7 +114,7 @@ abstract class Base extends TestCase
         'create("label:admin")',
     ];
 
-    const ID_HELPER_RESPONSES = [
+    protected const ID_HELPER_RESPONSES = [
         'unique()',
         'custom_id'
     ];
@@ -112,13 +132,33 @@ abstract class Base extends TestCase
     public function setUp(): void
     {
         $headers = "x-sdk-name: {$this->sdkName}; x-sdk-platform: {$this->sdkPlatform}; x-sdk-language: {$this->sdkLanguage}; x-sdk-version: {$this->version}";
-        array_push($this->expectedOutput, $headers);
+
+        $this->expectedOutput[] = $headers;
+
+        // Figure out if mock-server is running
+        $isMockAPIRunning = \strlen(\exec('docker ps | grep mock-server')) > 0;
+
+        if (!$isMockAPIRunning) {
+            echo "Starting Mock API Server";
+
+            \exec('
+                cd ./mock-server && \
+                docker-compose build && \
+                docker compose up -d --force-recreate
+            ');
+        }
     }
 
     public function tearDown(): void
     {
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws \Throwable
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function testHTTPSuccess(): void
     {
         $spec = file_get_contents(realpath(__DIR__ . '/resources/spec.json'));
@@ -151,68 +191,70 @@ abstract class Base extends TestCase
 
         $dir = __DIR__ . '/sdks/' . $this->language;
 
-        $this->rmdir_recursive($dir);
+        $this->rmdirRecursive($dir);
 
         $sdk->generate(__DIR__ . '/sdks/' . $this->language);
 
         /**
          * Build SDK
          */
-        foreach ($this->build as $key => $command) {
-            echo "Building phase #{$key} for {$this->language} package...\n";
-            echo "Executing: {$command}\n";
-
-            $buildOutput = [];
-
-            ob_end_clean();
+        foreach ($this->build as $command) {
             echo "Build Executing: {$command}\n";
-            ob_start();
 
-            exec($command, $buildOutput);
-
-            foreach ($buildOutput as $i => $row) {
-                echo "{$i}. {$row}\n";
-            }
+            exec($command);
         }
 
         $output = [];
 
-        ob_end_clean();
         echo "Env Executing: {$this->command}\n";
-        ob_start();
 
         exec($this->command, $output);
-
-        foreach ($output as $i => $row) {
-            echo "{$row}\n";
-        }
 
         $this->assertIsArray($output);
 
         do {
-            $removed = array_shift($output);
+            $removed = \array_shift($output);
         } while ($removed != 'Test Started' && sizeof($output) != 0);
 
-        $this->assertGreaterThanOrEqual(count($this->expectedOutput), count($output));
+        echo \implode("\n", $output);
 
-        foreach ($this->expectedOutput as $i => $row) {
-            $this->assertEquals($output[$i], $row);
+        foreach ($this->expectedOutput as $index => $expected) {
+            // HACK: Swift does not guarantee the order of the JSON parameters
+            if (\str_starts_with($expected, '{')) {
+                $this->assertEquals(
+                    \json_decode($expected, true),
+                    \json_decode($output[$index], true)
+                );
+            } elseif ($expected == 'unique()') {
+                $this->assertNotEmpty($output[$index]);
+                $this->assertIsString($output[$index]);
+                $this->assertEquals(20, strlen($output[$index]));
+                $this->assertNotEquals($output[$index], 'unique()');
+            } else {
+                $this->assertEquals($expected, $output[$index]);
+            }
         }
     }
 
-    private function rmdir_recursive($dir) {
+    private function rmdirRecursive($dir): void
+    {
         if (!\is_dir($dir)) {
             return;
         }
-        foreach(\scandir($dir) as $file) {
-            if ('.' === $file || '..' === $file) continue;
-            if (\is_dir("$dir/$file")) $this->rmdir_recursive("$dir/$file");
-            else \unlink("$dir/$file");
+        foreach (\scandir($dir) as $file) {
+            if ('.' === $file || '..' === $file) {
+                continue;
+            }
+            if (\is_dir("$dir/$file")) {
+                $this->rmdirRecursive("$dir/$file");
+            } else {
+                \unlink("$dir/$file");
+            }
         }
-        rmdir($dir);
+        \rmdir($dir);
     }
 
-    public function getLanguage(): Language 
+    public function getLanguage(): Language
     {
         return new $this->class();
     }
