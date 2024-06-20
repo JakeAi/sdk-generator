@@ -42,6 +42,86 @@ class Angular extends JS
 
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/config/auth.config.ts',
+                'template'      => $folder . '/src/lib/config/auth.config.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/config/index.ts',
+                'template'      => $folder . '/src/lib/config/index.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/directives/role-access.directive.ts',
+                'template'      => $folder . '/src/lib/directives/role-access.directive.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/directives/content.guard.ts',
+                'template'      => $folder . '/src/lib/directives/content.guard.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/guards/auth-claims-agreements.guard.ts',
+                'template'      => $folder . '/src/lib/guards/auth-claims-agreements.guard.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/guards/auth.guard.ts',
+                'template'      => $folder . '/src/lib/guards/auth.guard.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/guards/index.ts',
+                'template'      => $folder . '/src/lib/guards/index.ts.twig',
+                'minify'        => false,
+            ],
+
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/directives/index.ts',
+                'template'      => $folder . '/src/lib/directives/index.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/dto/forgot-password.dto.ts',
+                'template'      => $folder . '/src/lib/dto/forgot-password.dto.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/dto/index.ts',
+                'template'      => $folder . '/src/lib/dto/index.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/dto/login.dto.ts',
+                'template'      => $folder . '/src/lib/dto/login.dto.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/dto/register.dto.ts',
+                'template'      => $folder . '/src/lib/dto/register.dto.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/dto/reset-password.dto.ts',
+                'template'      => $folder . '/src/lib/dto/reset-password.dto.ts.twig',
+                'minify'        => false,
+            ],
+
+                [
+                'scope'         => 'default',
                 'destination'   => 'src/lib/exceptions/appwrite.exception.ts',
                 'template'      => $folder . '/src/lib/exceptions/appwrite.exception.ts.twig',
                 'minify'        => false,
@@ -52,8 +132,6 @@ class Angular extends JS
                 'template'      => $folder . '/src/lib/exceptions/index.ts.twig',
                 'minify'        => false,
             ],
-
-
             [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/pipes/appwrite-content.pipe.spec.ts',
@@ -120,10 +198,6 @@ class Angular extends JS
                 'template'      => $folder . '/src/lib/pipes/index.ts.twig',
                 'minify'        => false,
             ],
-
-
-
-
             [
                 'scope'         => 'service',
                 'destination'   => 'src/lib/services/appwrite-{{service.name | caseDash}}.service.ts',
@@ -132,10 +206,17 @@ class Angular extends JS
             ],
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/services/appwrite-auth.service.ts',
+                'template'      => $folder . '/src/lib/services/appwrite-auth.service.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
                 'destination'   => 'src/lib/services/appwrite-realtime.service.ts',
                 'template'      => $folder . '/src/lib/services/appwrite-realtime.service.ts.twig',
                 'minify'        => false,
-            ],            [
+            ],
+            [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/services/appwrite.service.ts',
                 'template'      => $folder . '/src/lib/services/appwrite.service.ts.twig',
@@ -152,11 +233,6 @@ class Angular extends JS
                 'template'      => $folder . '/src/lib/services/index.ts.twig',
                 'minify'        => false,
             ],
-
-
-
-
-
             [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/tokens/appwrite-local-storage-provider.token.ts',
@@ -179,6 +255,18 @@ class Angular extends JS
                 'scope'         => 'default',
                 'destination'   => 'src/lib/tokens/index.ts',
                 'template'      => $folder . '/src/lib/tokens/index.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/tokens/auth.options.ts',
+                'template'      => $folder . '/src/lib/tokens/auth.options.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/tokens/sentry.provider.ts',
+                'template'      => $folder . '/src/lib/tokens/sentry.provider.ts.twig',
                 'minify'        => false,
             ],
             [
@@ -217,6 +305,25 @@ class Angular extends JS
             ],
             [
                 'scope'         => 'default',
+                'destination'   => 'src/lib/utilities/get-auth-scheme.utility.ts',
+                'template'      => $folder . '/src/lib/utilities/get-auth-scheme.utility.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/utilities/index.ts',
+                'template'      => $folder . '/src/lib/utilities/index.ts.twig',
+                'minify'        => false,
+            ],
+            [
+                'scope'         => 'default',
+                'destination'   => 'src/lib/utilities/must-match.ts',
+                'template'      => $folder . '/src/lib/utilities/must-match.ts.twig',
+                'minify'        => false,
+            ],
+
+            [
+                'scope'         => 'default',
                 'destination'   => 'src/lib/appwrite-angular.module.ts',
                 'template'      => $folder . '/src/lib/appwrite-angular.module.ts.twig',
                 'minify'        => false,
@@ -227,74 +334,73 @@ class Angular extends JS
                 'template'      => $folder . '/src/index.ts.twig',
                 'minify'        => false,
             ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'src/test-setup.ts',
-                'template'      => $folder . '/src/test-setup.ts.twig',
-                'minify'        => false,
-            ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'src/test-setup.ts',
+            //     'template'      => $folder . '/src/test-setup.ts.twig',
+            //     'minify'        => false,
+            // ],
 
-            [
-                'scope'         => 'default',
-                'destination'   => '.eslintrc.json',
-                'template'      => $folder . '/.eslintrc.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'jest.config.ts',
-                'template'      => $folder . '/jest.config.ts.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'ng-package.json',
-                'template'      => $folder . '/ng-package.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'package.json',
-                'template'      => $folder . '/package.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'project.json',
-                'template'      => $folder . '/project.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'README.md',
-                'template'      => $folder . '/README.md.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'tsconfig.json',
-                'template'      => $folder . '/tsconfig.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'tsconfig.lib.json',
-                'template'      => $folder . '/tsconfig.lib.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'tsconfig.lib.prod.json',
-                'template'      => $folder . '/tsconfig.lib.prod.json.twig',
-                'minify'        => false,
-            ],
-            [
-                'scope'         => 'default',
-                'destination'   => 'tsconfig.spec.json',
-                'template'      => $folder . '/tsconfig.spec.json.twig',
-                'minify'        => false,
-            ],
-
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => '.eslintrc.json',
+            //     'template'      => $folder . '/.eslintrc.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'jest.config.ts',
+            //     'template'      => $folder . '/jest.config.ts.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'ng-package.json',
+            //     'template'      => $folder . '/ng-package.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'package.json',
+            //     'template'      => $folder . '/package.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'project.json',
+            //     'template'      => $folder . '/project.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'README.md',
+            //     'template'      => $folder . '/README.md.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'tsconfig.json',
+            //     'template'      => $folder . '/tsconfig.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'tsconfig.lib.json',
+            //     'template'      => $folder . '/tsconfig.lib.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'tsconfig.lib.prod.json',
+            //     'template'      => $folder . '/tsconfig.lib.prod.json.twig',
+            //     'minify'        => false,
+            // ],
+            // [
+            //     'scope'         => 'default',
+            //     'destination'   => 'tsconfig.spec.json',
+            //     'template'      => $folder . '/tsconfig.spec.json.twig',
+            //     'minify'        => false,
+            // ],
         ];
     }
 

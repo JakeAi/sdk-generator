@@ -1,0 +1,248 @@
+import { Attribute } from './attribute';
+import { DocumentList, } from './documentList';
+import { CollectionList, } from './collectionList';
+import { DatabaseList, } from './databaseList';
+import { IndexList, } from './indexList';
+import { UserList, } from './userList';
+import { SessionList, } from './sessionList';
+import { IdentityList, } from './identityList';
+import { LogList, } from './logList';
+import { FileList, } from './fileList';
+import { BucketList, } from './bucketList';
+import { TeamList, } from './teamList';
+import { MembershipList, } from './membershipList';
+import { FunctionList, } from './functionList';
+import { InstallationList, } from './installationList';
+import { ProviderRepositoryList, } from './providerRepositoryList';
+import { BranchList, } from './branchList';
+import { RuntimeList, } from './runtimeList';
+import { DeploymentList, } from './deploymentList';
+import { ExecutionList, } from './executionList';
+import { ProjectList, } from './projectList';
+import { WebhookList, } from './webhookList';
+import { KeyList, } from './keyList';
+import { PlatformList, } from './platformList';
+import { CountryList, } from './countryList';
+import { ContinentList, } from './continentList';
+import { LanguageList, } from './languageList';
+import { CurrencyList, } from './currencyList';
+import { PhoneList, } from './phoneList';
+import { VariableList, } from './variableList';
+import { ProxyRuleList, } from './proxyRuleList';
+import { LocaleCodeList, } from './localeCodeList';
+import { ProviderList, } from './providerList';
+import { MessageList, } from './messageList';
+import { TopicList, } from './topicList';
+import { SubscriberList, } from './subscriberList';
+import { TargetList, } from './targetList';
+import { MigrationList, } from './migrationList';
+import { FirebaseProjectList, } from './firebaseProjectList';
+import { Database, } from './database';
+import { Collection, } from './collection';
+import { AttributeList, } from './attributeList';
+import { AttributeString, } from './attributeString';
+import { AttributeInteger, } from './attributeInteger';
+import { AttributeFloat, } from './attributeFloat';
+import { AttributeBoolean, } from './attributeBoolean';
+import { AttributeEmail, } from './attributeEmail';
+import { AttributeEnum, } from './attributeEnum';
+import { AttributeIp, } from './attributeIp';
+import { AttributeUrl, } from './attributeUrl';
+import { AttributeDatetime, } from './attributeDatetime';
+import { AttributeRelationship, } from './attributeRelationship';
+import { Index, } from './index';
+import { Document, } from './document';
+import { Log, } from './log';
+import { User, } from './user';
+import { AlgoMd5, } from './algoMd5';
+import { AlgoSha, } from './algoSha';
+import { AlgoPhpass, } from './algoPhpass';
+import { AlgoBcrypt, } from './algoBcrypt';
+import { AlgoScrypt, } from './algoScrypt';
+import { AlgoScryptModified, } from './algoScryptModified';
+import { AlgoArgon2, } from './algoArgon2';
+import { Preferences, } from './preferences';
+import { Session, } from './session';
+import { Identity, } from './identity';
+import { Token, } from './token';
+import { Jwt, } from './jwt';
+import { Locale, } from './locale';
+import { LocaleCode, } from './localeCode';
+import { File, } from './file';
+import { Bucket, } from './bucket';
+import { Team, } from './team';
+import { Membership, } from './membership';
+import { Function, } from './function';
+import { Installation, } from './installation';
+import { ProviderRepository, } from './providerRepository';
+import { Detection, } from './detection';
+import { Branch, } from './branch';
+import { Runtime, } from './runtime';
+import { Deployment, } from './deployment';
+import { Execution, } from './execution';
+import { Project, } from './project';
+import { Webhook, } from './webhook';
+import { Key, } from './key';
+import { AuthProvider, } from './authProvider';
+import { Platform, } from './platform';
+import { Variable, } from './variable';
+import { Country, } from './country';
+import { Continent, } from './continent';
+import { Language, } from './language';
+import { Currency, } from './currency';
+import { Phone, } from './phone';
+import { HealthAntivirus, } from './healthAntivirus';
+import { HealthQueue, } from './healthQueue';
+import { HealthStatus, } from './healthStatus';
+import { HealthCertificate, } from './healthCertificate';
+import { HealthTime, } from './healthTime';
+import { Metric, } from './metric';
+import { MetricBreakdown, } from './metricBreakdown';
+import { UsageDatabases, } from './usageDatabases';
+import { UsageDatabase, } from './usageDatabase';
+import { UsageCollection, } from './usageCollection';
+import { UsageUsers, } from './usageUsers';
+import { UsageStorage, } from './usageStorage';
+import { UsageBuckets, } from './usageBuckets';
+import { UsageFunctions, } from './usageFunctions';
+import { UsageFunction, } from './usageFunction';
+import { UsageProject, } from './usageProject';
+import { Headers, } from './headers';
+import { ProxyRule, } from './proxyRule';
+import { SmsTemplate, } from './smsTemplate';
+import { EmailTemplate, } from './emailTemplate';
+import { ConsoleVariables, } from './consoleVariables';
+import { MfaChallenge, } from './mfaChallenge';
+import { MfaRecoveryCodes, } from './mfaRecoveryCodes';
+import { MfaType, } from './mfaType';
+import { MfaFactors, } from './mfaFactors';
+import { Provider, } from './provider';
+import { Message, } from './message';
+import { Topic, } from './topic';
+import { Subscriber, } from './subscriber';
+import { Target, } from './target';
+import { Migration, } from './migration';
+import { MigrationReport, } from './migrationReport';
+import { FirebaseProject, } from './firebaseProject';
+
+/**
+ * Session
+ */
+export interface Session {
+  /**
+   * Session ID.
+   */
+  $id: string;
+  /**
+   * Session creation date in ISO 8601 format.
+   */
+  $createdAt: string;
+  /**
+   * Session update date in ISO 8601 format.
+   */
+  $updatedAt: string;
+  /**
+   * User ID.
+   */
+  userId: string;
+  /**
+   * Session expiration date in ISO 8601 format.
+   */
+  expire: string;
+  /**
+   * Session Provider.
+   */
+  provider: string;
+  /**
+   * Session Provider User ID.
+   */
+  providerUid: string;
+  /**
+   * Session Provider Access Token.
+   */
+  providerAccessToken: string;
+  /**
+   * The date of when the access token expires in ISO 8601 format.
+   */
+  providerAccessTokenExpiry: string;
+  /**
+   * Session Provider Refresh Token.
+   */
+  providerRefreshToken: string;
+  /**
+   * IP in use when the session was created.
+   */
+  ip: string;
+  /**
+   * Operating system code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
+   */
+  osCode: string;
+  /**
+   * Operating system name.
+   */
+  osName: string;
+  /**
+   * Operating system version.
+   */
+  osVersion: string;
+  /**
+   * Client type.
+   */
+  clientType: string;
+  /**
+   * Client code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
+   */
+  clientCode: string;
+  /**
+   * Client name.
+   */
+  clientName: string;
+  /**
+   * Client version.
+   */
+  clientVersion: string;
+  /**
+   * Client engine name.
+   */
+  clientEngine: string;
+  /**
+   * Client engine name.
+   */
+  clientEngineVersion: string;
+  /**
+   * Device name.
+   */
+  deviceName: string;
+  /**
+   * Device brand name.
+   */
+  deviceBrand: string;
+  /**
+   * Device model name.
+   */
+  deviceModel: string;
+  /**
+   * Country two-character ISO 3166-1 alpha code.
+   */
+  countryCode: string;
+  /**
+   * Country name.
+   */
+  countryName: string;
+  /**
+   * Returns true if this the current user session.
+   */
+  current: boolean;
+  /**
+   * Returns a list of active session factors.
+   */
+  factors: string[];
+  /**
+   * Secret used to authenticate the user. Only included if the request was made with an API key
+   */
+  secret: string;
+  /**
+   * Most recent date in ISO 8601 format when the session successfully passed MFA challenge.
+   */
+  mfaUpdatedAt: string;
+}

@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Headers, HttpMethods, Payload } from '@appwrite/common';
+import { firstValueFrom } from 'rxjs';
 import { AppwriteOptions } from '../appwrite-angular.module';
 import { AppwriteException } from '../exceptions';
 import { APPWRITE_LOCATION_PROVIDER_TOKEN, APPWRITE_OPTIONS_TOKEN } from '../tokens';
@@ -117,14 +118,14 @@ export class AppwriteService {
     }
 
     try {
-      const response: HttpResponse<T> = await this.http
-        .request<T>(method, url.toString(), {
+      const response: HttpResponse<T> = await firstValueFrom(
+        this.http.request<T>(method, decodeURIComponent(url.toString()), {
           body,
           headers: headers,
           observe: 'response',
           withCredentials: true
         })
-        .toPromise();
+      );
       let data: any | { message: string } = null;
       if (response.headers.get('content-type')?.includes('application/json')) {
         data = response.body;

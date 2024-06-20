@@ -38,7 +38,7 @@ try {
         return $result;
     }
     // $spec = file_get_contents('./specs/swagger2-latest-client.json');
-    $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-client.json");
+    $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-1.5.x-client.json");
 
 
     if(empty($spec)) {
