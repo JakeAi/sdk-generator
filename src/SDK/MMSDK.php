@@ -18,12 +18,12 @@ use Twig_Error_Loader;
 use Twig_Error_Runtime;
 use Twig_Error_Syntax;
 
-class AngularSDK extends SDK
+class MMSDK extends SDK
 {
 
 
     /**
-     * AngularSDK constructor.
+     * MMSDK constructor.
      *
      * @param Language $language
      * @param Spec $spec

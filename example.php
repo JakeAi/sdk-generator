@@ -5,7 +5,7 @@ include_once 'vendor/autoload.php';
 use Appwrite\SDK\Language\GraphQL;
 use Appwrite\Spec\Swagger2;
 use Appwrite\SDK\SDK;
-use Appwrite\SDK\AngularSDK;
+use Appwrite\SDK\MMSDK;
 use Appwrite\SDK\Language\Angular;
 use Appwrite\SDK\Language\AngularCommon;
 use Appwrite\SDK\Language\Web;
@@ -48,7 +48,7 @@ try {
 
 
     // Angular
-    $sdk  = new AngularSDK(new Angular(), new Swagger2($spec));
+    $sdk  = new MMSDK(new Angular(), new Swagger2($spec));
 
     $sdk
         ->setName('Angular')
@@ -73,7 +73,7 @@ try {
 
     $sdk->generate(__DIR__ . '/examples/angular');
     // Angular Common
-    $sdk  = new SDK(new AngularCommon(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-console.json")));
+    $sdk  = new MMSDK(new AngularCommon(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-console.json")));
 
     $sdk
         ->setName('AngularCommon')
