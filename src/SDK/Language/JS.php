@@ -105,7 +105,8 @@ abstract class JS extends Language
             'volatile',
             'while',
             'with',
-            'yield'
+            'yield',
+            'path'
         ];
     }
 

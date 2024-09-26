@@ -1,0 +1,11 @@
+{%- macro map_parameter(parameters) -%}
+{%- for parameter in parameters ~%}
+            '{{ parameter.name }}': {{ parameter.name | caseCamel | overrideIdentifier }}{% if parameter.enumValues | length > 0  %}{% if not parameter.required %}?{% endif %}.value{% endif %},
+{%- endfor ~%}
+{%- endmacro ~%}
+
+{% macro map_headers(headers) -%}
+{%- for key, header in headers %}
+            '{{ key }}': '{{ header }}',
+{%- endfor -%}
+{%- endmacro -%}

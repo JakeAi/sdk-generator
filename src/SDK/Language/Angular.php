@@ -120,7 +120,7 @@ class Angular extends JS
                 'minify'        => false,
             ],
 
-                [
+            [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/exceptions/appwrite.exception.ts',
                 'template'      => $folder . '/src/lib/exceptions/appwrite.exception.ts.twig',
@@ -221,7 +221,8 @@ class Angular extends JS
                 'destination'   => 'src/lib/services/appwrite.service.ts',
                 'template'      => $folder . '/src/lib/services/appwrite.service.ts.twig',
                 'minify'        => false,
-            ],            [
+            ],
+            [
                 'scope'         => 'method',
                 'destination'   => 'src/lib/services/services-spec.ts',
                 'template'      => $folder . '/src/lib/services/services-spec.ts.twig',
@@ -280,12 +281,14 @@ class Angular extends JS
                 'destination'   => 'src/lib/util/prepare-form-data.spec.ts',
                 'template'      => $folder . '/src/lib/util/prepare-form-data.spec.ts.twig',
                 'minify'        => false,
-            ],            [
+            ],
+            [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/util/prepare-form-data.ts',
                 'template'      => $folder . '/src/lib/util/prepare-form-data.ts.twig',
                 'minify'        => false,
-            ],            [
+            ],
+            [
                 'scope'         => 'default',
                 'destination'   => 'src/lib/util/prepare-search-params.spec.ts',
                 'template'      => $folder . '/src/lib/util/prepare-search-params.spec.ts.twig',
@@ -403,6 +406,25 @@ class Angular extends JS
             // ],
         ];
     }
+
+
+    /**
+     * Get Language Keywords List
+     *
+     * @return array
+     */
+    public function getKeywords(): array
+    {
+        $keywords = parent::getKeywords();
+        $stringToRemove = 'path';
+
+        $filteredKeywords = array_filter($keywords, function($keyword) use ($stringToRemove) {
+            return $keyword !== $stringToRemove;
+        });
+        
+        return $filteredKeywords;
+    }
+
 
     /**
      * @param array $param
@@ -563,7 +585,7 @@ class Angular extends JS
             }
 
             $models = array_unique($models);
-            $models = array_filter($models, fn ($model) => $model != $this->toUpperCase($method['responseModel']));
+            $models = array_filter($models, fn($model) => $model != $this->toUpperCase($method['responseModel']));
             $models = array_map(function ($type) {
                 switch ($type) {
                     case 'Document':
@@ -614,7 +636,7 @@ class Angular extends JS
             $generics = [];
             $this->populateGenerics($property['sub_schema'], $spec, $generics);
 
-            $generics = array_filter($generics, fn ($model) => $model != $this->toUpperCase($property['sub_schema']));
+            $generics = array_filter($generics, fn($model) => $model != $this->toUpperCase($property['sub_schema']));
 
             $ret .= $this->toUpperCase($property['sub_schema']);
             if (!empty($generics)) {

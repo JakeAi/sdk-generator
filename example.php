@@ -5,6 +5,7 @@ include_once 'vendor/autoload.php';
 use Appwrite\SDK\Language\GraphQL;
 use Appwrite\Spec\Swagger2;
 use Appwrite\SDK\SDK;
+use Appwrite\SDK\AngularSDK;
 use Appwrite\SDK\Language\Angular;
 use Appwrite\SDK\Language\AngularCommon;
 use Appwrite\SDK\Language\Web;
@@ -38,7 +39,7 @@ try {
         return $result;
     }
     // $spec = file_get_contents('./specs/swagger2-latest-client.json');
-    $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-1.5.x-client.json");
+    $spec = getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-1.6.x-client.json");
 
 
     if(empty($spec)) {
@@ -47,13 +48,13 @@ try {
 
 
     // Angular
-    $sdk  = new SDK(new Angular(), new Swagger2($spec));
+    $sdk  = new AngularSDK(new Angular(), new Swagger2($spec));
 
     $sdk
         ->setName('Angular')
         ->setDescription('Repo description goes here')
         ->setShortDescription('Repo short description goes here')
-        ->setVersion('12.0.0')
+        ->setVersion('16.0.0')
         ->setPlatform('client')
         ->setURL('https://example.com')
         ->setLogo('https://appwrite.io/v1/images/console.png')

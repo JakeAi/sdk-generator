@@ -519,21 +519,7 @@ class SDK
     {
         return $this->params[$name] ?? '';
     }
-    public function rrmdir($dir)
-    {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir")
-                        $this->rrmdir($dir . "/" . $object);
-                    else unlink($dir . "/" . $object);
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
-    }
+
     /**
      * @return array
      */
@@ -551,7 +537,6 @@ class SDK
      */
     public function generate(string $target): void
     {
-        $this->rrmdir($target);
         $params = [
             'spec' => [
                 'title' => $this->spec->getTitle(),
@@ -621,12 +606,6 @@ class SDK
                         $this->render($template, $destination, $block, $params, $minify);
                     }
                     break;
-                case 'models':
-                    foreach ($this->spec->getDefinitions() as $key => $definition) {
-                        $params['definition'] = $definition;
-
-                        $this->render($template, $destination, $block, $params, $minify);
-                    }
                 case 'definition':
                     foreach ($this->spec->getDefinitions() as $key => $definition) {
                         $params['definition'] = $definition;

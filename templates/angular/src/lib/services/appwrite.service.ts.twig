@@ -126,6 +126,12 @@ export class AppwriteService {
           withCredentials: true
         })
       );
+
+      const warnings = response.headers.get('x-appwrite-warning');
+      if (warnings) {
+        warnings.split(';').forEach((warning: string) => console.warn('Warning: ' + warning));
+      }
+
       let data: any | { message: string } = null;
       if (response.headers.get('content-type')?.includes('application/json')) {
         data = response.body;
