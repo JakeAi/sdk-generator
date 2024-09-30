@@ -5,7 +5,7 @@ namespace Appwrite\SDK\Language;
 use Twig\TwigFilter;
 
 
-class Angular extends JS
+class Angular extends Web
 {
 
     /**
@@ -14,6 +14,23 @@ class Angular extends JS
     public function getName(): string
     {
         return 'Angular';
+    }
+
+
+    public function toUpperCase(string $value): string
+    {
+        return ucfirst((string)$this->helperCamelCase($value));
+    }
+
+    protected function helperCamelCase($str)
+    {
+        $str = preg_replace('/[^a-z0-9' . implode("", []) . ']+/i', ' ', $str);
+        $str = trim($str);
+        $str = ucwords($str);
+        $str = str_replace(" ", "", $str);
+        $str = lcfirst($str);
+
+        return $str;
     }
 
     /**
@@ -418,70 +435,23 @@ class Angular extends JS
         $keywords = parent::getKeywords();
         $stringToRemove = 'path';
 
-        $filteredKeywords = array_filter($keywords, function($keyword) use ($stringToRemove) {
+        $filteredKeywords = array_filter($keywords, function ($keyword) use ($stringToRemove) {
             return $keyword !== $stringToRemove;
         });
-        
+
         return $filteredKeywords;
     }
 
 
-    /**
-     * @param array $param
-     * @return string
-     */
-    public function getParamExample(array $param): string
-    {
-        $type       = $param['type'] ?? '';
-        $example    = $param['example'] ?? '';
-
-        $output = '';
-
-        if (empty($example) && $example !== 0 && $example !== false) {
-            switch ($type) {
-                case self::TYPE_NUMBER:
-                case self::TYPE_INTEGER:
-                case self::TYPE_BOOLEAN:
-                    $output .= 'null';
-                    break;
-                case self::TYPE_STRING:
-                    $output .= "''";
-                    break;
-                case self::TYPE_ARRAY:
-                    $output .= '[]';
-                    break;
-                case self::TYPE_OBJECT:
-                    $output .= '{}';
-                    break;
-                case self::TYPE_FILE:
-                    $output .= "document.getElementById('uploader').files[0]";
-                    break;
-            }
-        } else {
-            switch ($type) {
-                case self::TYPE_NUMBER:
-                case self::TYPE_INTEGER:
-                case self::TYPE_ARRAY:
-                case self::TYPE_OBJECT:
-                    $output .= $example;
-                    break;
-                case self::TYPE_BOOLEAN:
-                    $output .= ($example) ? 'true' : 'false';
-                    break;
-                case self::TYPE_STRING:
-                    $output .= "'{$example}'";
-                    break;
-                case self::TYPE_FILE:
-                    $output .= "document.getElementById('uploader').files[0]";
-                    break;
-            }
-        }
-
-        return $output;
-    }
-
     public function getTypeName(array $parameter, array $method = []): string
     {
+        if (isset($parameter['enumName'])) {
+            return \ucfirst($parameter['enumName']);
+        }
+        if (!empty($parameter['enumValues'])) {
+            return \ucfirst($parameter['name']);
+        }
+        
         switch ($parameter['type']) {
             case self::TYPE_INTEGER:
             case self::TYPE_NUMBER:
@@ -554,9 +524,12 @@ class Angular extends JS
     {
         if ($method['type'] === 'webAuth') {
             return 'void | URL';
-        } elseif ($method['type'] === 'location') {
+        }
+
+        if ($method['type'] === 'location') {
             return 'URL';
         }
+
         if (array_key_exists('responseModel', $method) && !empty($method['responseModel']) && $method['responseModel'] !== 'any') {
             $ret = '';
             if (
@@ -613,22 +586,6 @@ class Angular extends JS
         return "";
     }
 
-    public function toUpperCase(string $value): string
-    {
-        return ucfirst((string)$this->helperCamelCase($value));
-    }
-
-    protected function helperCamelCase($str)
-    {
-        $str = preg_replace('/[^a-z0-9' . implode("", []) . ']+/i', ' ', $str);
-        $str = trim($str);
-        $str = ucwords($str);
-        $str = str_replace(" ", "", $str);
-        $str = lcfirst($str);
-
-        return $str;
-    }
-
     public function getSubSchema(array $property, array $spec): string
     {
         if (array_key_exists('sub_schema', $property)) {
@@ -681,6 +638,9 @@ class Angular extends JS
                 }
                 return implode("\n", $value);
             }, ['is_safe' => ['html']]),
+            new TwigFilter('caseEnumKey', function ($value) {
+                return $this->toPascalCase($value);
+            }),
         ];
     }
 }

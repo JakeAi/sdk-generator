@@ -25,7 +25,7 @@ class AngularCommon extends JS
         return [
             [
                 'scope'         => 'models',
-                'destination'   => 'src/lib/interfaces/{{definition.name}}.ts',
+                'destination'   => 'src/lib/interfaces/{{definition.name|caseDash}}.ts',
                 'template'      => $folder . '/src/lib/interfaces/models.ts.twig',
                 'minify'        => false,
             ],
@@ -149,6 +149,11 @@ class AngularCommon extends JS
             //     'template'      => $folder . '/tsconfig.spec.json.twig',
             //     'minify'        => false,
             // ],
+            [
+                'scope'         => 'enum',
+                'destination'   => 'src/lib/enum/{{ enum.name | caseDash }}.ts',
+                'template'      => $folder .'/src/lib/enum/enum.ts.twig',
+            ],
 
         ];
     }
@@ -432,6 +437,10 @@ class AngularCommon extends JS
                 }
                 return implode("\n", $value);
             }, ['is_safe' => ['html']]),
+            new TwigFilter('caseEnumKey', function ($value) {
+                return $this->toPascalCase($value);
+            }),
+
         ];
     }
 }

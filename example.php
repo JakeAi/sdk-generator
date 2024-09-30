@@ -73,7 +73,7 @@ try {
 
     $sdk->generate(__DIR__ . '/examples/angular');
     // Angular Common
-    $sdk  = new MMSDK(new AngularCommon(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-console.json")));
+    $sdk  = new MMSDK(new AngularCommon(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-server.json")));
 
     $sdk
         ->setName('AngularCommon')
@@ -95,8 +95,30 @@ try {
         ])
     ;
 
-    $sdk->generate(__DIR__ . '/examples/angular-common');
+//    $sdk->generate(__DIR__ . '/examples/angular-common');
 
+    // // Web
+    $sdk  = new SDK(new Web(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-client.json")));
+
+    $sdk
+        ->setName('NAME')
+        ->setDescription('Repo description goes here')
+        ->setShortDescription('Repo short description goes here')
+        ->setVersion('0.0.0')
+        ->setURL('https://example.com')
+        ->setLogo('https://appwrite.io/v1/images/console.png')
+        ->setLicenseContent('test test test')
+        ->setWarning('**WORK IN PROGRESS - NOT READY FOR USAGE**')
+        ->setChangelog('**CHANGELOG**')
+        ->setReadme("## Getting Started")
+        ->setGitUserName('repoowner')
+        ->setGitRepoName('reponame')
+        ->setTwitter('appwrite_io')
+        ->setDiscord('564160730845151244', 'https://appwrite.io/discord')
+        ->setDefaultHeaders([
+            'X-Appwrite-Response-Format' => '1.6.0',
+        ])
+    ;
 }
 catch (Exception $exception) {
     echo 'Error: ' . $exception->getMessage() . ' on ' . $exception->getFile() . ':' . $exception->getLine() . "\n";
