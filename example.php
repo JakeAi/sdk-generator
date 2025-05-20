@@ -95,7 +95,7 @@ try {
         ])
     ;
 
-//    $sdk->generate(__DIR__ . '/examples/angular-common');
+    $sdk->generate(__DIR__ . '/examples/angular-common');
 
     // // Web
     $sdk  = new SDK(new Web(), new Swagger2(getSSLPage("https://raw.githubusercontent.com/appwrite/appwrite/master/app/config/specs/swagger2-latest-client.json")));

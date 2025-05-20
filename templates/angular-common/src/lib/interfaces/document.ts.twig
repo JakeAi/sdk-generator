@@ -1,5 +1,5 @@
 {% for definition in spec.definitions %}
-import { {{definition.name|caseUcfirst}}, } from './{{ definition.name }}';
+import { {{definition.name|caseUcfirst}}, } from './{{ definition.name  | caseDash }}';
 {% endfor %}
 {% for definition in spec.definitions %}
 {% if definition.name == "document" %}
