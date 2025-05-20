@@ -9,7 +9,13 @@ function getAllFiles(folder) {
     const files = [];
     for (const pathDir of fs.readdirSync(folder)) {
         const pathAbsolute = path.join(folder, pathDir);
-        if (fs.statSync(pathAbsolute).isDirectory()) {
+        let stats;
+        try {
+            stats = fs.statSync(pathAbsolute);
+        } catch (error) {
+            continue;
+        }
+        if (stats.isDirectory()) {
             files.push(...getAllFiles(pathAbsolute));
         } else {
             files.push(pathAbsolute);
@@ -88,6 +94,9 @@ function showConsoleLink(serviceName, action, ...ids) {
             break;
         case "teams":
             url.pathname += getTeamsPath(action, ids);
+            break;
+        case "organizations":
+            url.pathname += getOrganizationsPath(action, ids);
             break;
         case "users":
             url.pathname += getUsersPath(action, ids);
@@ -236,6 +245,16 @@ function getTeamsPath(action, ids) {
 
     if (action !== 'list') {
         path += `/team-${ids[0]}`;
+    }
+
+    return path;
+}
+
+function getOrganizationsPath(action, ids) {
+    let path = `/organization-${ids[0]}`;
+
+    if (action === 'list') {
+        path = '/account/organizations';
     }
 
     return path;

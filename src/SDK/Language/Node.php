@@ -20,11 +20,28 @@ class Node extends Web
         if (!empty($parameter['enumValues'])) {
             return \ucfirst($parameter['name']);
         }
+        if (isset($parameter['items'])) {
+            // Map definition nested type to parameter nested type
+            $parameter['array'] = $parameter['items'];
+        }
         switch ($parameter['type']) {
             case self::TYPE_INTEGER:
             case self::TYPE_NUMBER:
                 return 'number';
             case self::TYPE_ARRAY:
+                if (!empty($parameter['array']['x-anyOf'] ?? [])) {
+                    $unionTypes = [];
+                    foreach ($parameter['array']['x-anyOf'] as $refType) {
+                        if (isset($refType['$ref'])) {
+                            $refParts = explode('/', $refType['$ref']);
+                            $modelName = end($refParts);
+                            $unionTypes[] = 'Models.' . $this->toPascalCase($modelName);
+                        }
+                    }
+                    if (!empty($unionTypes)) {
+                        return '(' . implode(' | ', $unionTypes) . ')[]';
+                    }
+                }
                 if (!empty(($parameter['array'] ?? [])['type']) && !\is_array($parameter['array']['type'])) {
                     return $this->getTypeName($parameter['array']) . '[]';
                 }

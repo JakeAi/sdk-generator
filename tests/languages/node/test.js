@@ -18,6 +18,7 @@ async function start() {
     // Init SDK
     const client = new Client()
         .addHeader("Origin", "http://localhost")
+        .setProject('123456')
         .setSelfSigned(true);
 
     const foo = new Foo(client);
@@ -27,6 +28,11 @@ async function start() {
     client.addHeader('Origin', 'http://localhost');
 
     console.log('\nTest Started');
+
+    // Ping
+
+    response = await client.ping();
+    console.log(response.result);
 
     // Foo
 
@@ -86,16 +92,25 @@ async function start() {
         response = await general.error400();
     } catch(error) {
         console.log(error.message);
+        console.log(error.response);
     }
     
     try {
         response = await general.error500();
     } catch(error) {
         console.log(error.message);
+        console.log(error.response);
     }
     
     try {
         response = await general.error502();
+    } catch(error) {
+        console.log(error.message);
+        console.log(error.response);
+    }
+
+    try {
+        client.setEndpoint("htp://cloud.appwrite.io/v1");
     } catch(error) {
         console.log(error.message);
     }

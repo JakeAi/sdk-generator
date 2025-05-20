@@ -119,6 +119,8 @@ try {
             'X-Appwrite-Response-Format' => '1.6.0',
         ])
     ;
+    
+    $sdk->generate(__DIR__ . '/examples/web');
 }
 catch (Exception $exception) {
     echo 'Error: ' . $exception->getMessage() . ' on ' . $exception->getFile() . ':' . $exception->getLine() . "\n";
